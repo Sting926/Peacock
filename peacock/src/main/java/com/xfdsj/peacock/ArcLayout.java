@@ -152,7 +152,6 @@ public class ArcLayout extends ViewGroup {
       degrees += perDegrees;
       getChildAt(i).layout(frame.left, frame.top, frame.right, frame.bottom);
     }
-    //getChildAt(0).layout(90, 30, 270, 210);
     Rect frame = computeChildFrame(centerX, centerY, 0, 0, mChildSize * 2);
     getChildAt(0).layout(frame.left, frame.top, frame.right, frame.bottom);
   }
