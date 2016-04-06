@@ -49,6 +49,7 @@ public class MainActivity extends Activity {
     final int itemCount = ITEM_DRAWABLES.length;
     for (int i = 0; i < itemCount; i++) {
       ImageView item = new ImageView(this);
+      item.setBackgroundResource(R.color.colorAccent);
       item.setImageResource(ITEM_DRAWABLES[i]);
 
       final int position = i;
@@ -65,6 +66,7 @@ public class MainActivity extends Activity {
     final int itemCount = itemDrawables.length;
     for (int i = 0; i < itemCount; i++) {
       ImageView item = new ImageView(this);
+      item.setBackgroundResource(R.color.colorAccent);
       item.setImageResource(itemDrawables[i]);
 
       final int position = i;
