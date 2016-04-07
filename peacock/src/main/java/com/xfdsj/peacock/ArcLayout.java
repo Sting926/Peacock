@@ -68,7 +68,7 @@ public class ArcLayout extends ViewGroup {
   /* the distance between the layout's center and any child's center */
   private int mRadius;
 
-  private boolean mExpanded = true;
+  private boolean mExpanded = false;
 
   public ArcLayout(Context context) {
     super(context);
@@ -90,10 +90,12 @@ public class ArcLayout extends ViewGroup {
     if (mIco != null) {
       mMenu.setImageDrawable(mIco);
     }
-/*    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-    layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-    addView(mMenu, layoutParams);*/
     addView(mMenu);
+    mMenu.setOnClickListener(new OnClickListener() {
+      @Override public void onClick(View v) {
+        switchState(true);
+      }
+    });
   }
 
   private static int computeRadius(final float arcDegrees, final int childCount,
@@ -143,17 +145,18 @@ public class ArcLayout extends ViewGroup {
     final int centerY = getHeight() / 2;
     final int radius = mExpanded ? mRadius : 0;
 
-    final int childCount = getChildCount();
-    final float perDegrees = (mToDegrees - mFromDegrees) / (childCount - 2);
+    final int childCount = getChildCount() - 1;
+    final float perDegrees = (mToDegrees - mFromDegrees) / (childCount - 1);
 
     float degrees = mFromDegrees;
-    for (int i = 1; i < childCount; i++) {
+    for (int i = 0; i < childCount; i++) {
       Rect frame = computeChildFrame(centerX, centerY, radius, degrees, mChildSize);
       degrees += perDegrees;
       getChildAt(i).layout(frame.left, frame.top, frame.right, frame.bottom);
     }
     Rect frame = computeChildFrame(centerX, centerY, 0, 0, mChildSize * 2);
-    getChildAt(0).layout(frame.left, frame.top, frame.right, frame.bottom);
+    mMenu.layout(frame.left, frame.top, frame.right, frame.bottom);
+    mMenu.bringToFront();
   }
 
   private static long computeStartOffset(final int childCount, final boolean expanded,
@@ -221,7 +224,7 @@ public class ArcLayout extends ViewGroup {
     final int centerY = getHeight() / 2;
     final int radius = expanded ? 0 : mRadius;
 
-    final int childCount = getChildCount();
+    final int childCount = getChildCount() - 1;
     final float perDegrees = (mToDegrees - mFromDegrees) / (childCount - 1);
     Rect frame =
         computeChildFrame(centerX, centerY, radius, mFromDegrees + index * perDegrees, mChildSize);
@@ -299,7 +302,7 @@ public class ArcLayout extends ViewGroup {
    */
   public void switchState(final boolean showAnimation) {
     if (showAnimation) {
-      final int childCount = getChildCount();
+      final int childCount = getChildCount() - 1;
       for (int i = 0; i < childCount; i++) {
         bindChildAnimation(getChildAt(i), i, 300);
       }
@@ -315,11 +318,10 @@ public class ArcLayout extends ViewGroup {
   }
 
   private void onAllAnimationsEnd() {
-    final int childCount = getChildCount();
+    final int childCount = getChildCount() - 1;
     for (int i = 0; i < childCount; i++) {
       getChildAt(i).clearAnimation();
     }
-
     requestLayout();
   }
 }
