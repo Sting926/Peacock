@@ -98,6 +98,7 @@ public class PeacockLayout extends ViewGroup {
     addView(mMenu);
     mMenu.setOnClickListener(new OnClickListener() {
       @Override public void onClick(View v) {
+        mMenu.startAnimation(createHintSwitchAnimation(isExpanded()));
         switchState(true);
       }
     });
