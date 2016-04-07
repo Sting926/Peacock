@@ -41,7 +41,7 @@ import android.widget.ImageView;
  *
  * @author Capricorn
  */
-public class ArcLayout extends ViewGroup {
+public class PeacockLayout extends ViewGroup {
   /**
    * children will be set the same size.
    */
@@ -70,19 +70,19 @@ public class ArcLayout extends ViewGroup {
 
   private boolean mExpanded = false;
 
-  public ArcLayout(Context context) {
+  public PeacockLayout(Context context) {
     super(context);
   }
 
-  public ArcLayout(Context context, AttributeSet attrs) {
+  public PeacockLayout(Context context, AttributeSet attrs) {
     super(context, attrs);
 
     if (attrs != null) {
-      TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ArcLayout, 0, 0);
-      mFromDegrees = a.getFloat(R.styleable.ArcLayout_fromDegrees, DEFAULT_FROM_DEGREES);
-      mToDegrees = a.getFloat(R.styleable.ArcLayout_toDegrees, DEFAULT_TO_DEGREES);
-      mChildSize = Math.max(a.getDimensionPixelSize(R.styleable.ArcLayout_childSize, 0), 0);
-      mIco = a.getDrawable(R.styleable.ArcLayout_ico);
+      TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.PeacockLayout, 0, 0);
+      mFromDegrees = a.getFloat(R.styleable.PeacockLayout_fromDegrees, DEFAULT_FROM_DEGREES);
+      mToDegrees = a.getFloat(R.styleable.PeacockLayout_toDegrees, DEFAULT_TO_DEGREES);
+      mChildSize = Math.max(a.getDimensionPixelSize(R.styleable.PeacockLayout_childSize, 0), 0);
+      mIco = a.getDrawable(R.styleable.PeacockLayout_ico);
       a.recycle();
     }
     mMenu = new ImageView(context);

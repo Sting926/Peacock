@@ -30,7 +30,7 @@
         app:toDegrees="@dimen/menuToDegrees"
         app:childSize="@dimen/menuChildSize"/>
 
-    <com.xfdsj.peacock.ArcLayout
+    <com.xfdsj.peacock.PeacockLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:fromDegrees="180.0"
@@ -67,6 +67,6 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:src="@drawable/composer_with"/>
-    </com.xfdsj.peacock.ArcLayout>
+    </com.xfdsj.peacock.PeacockLayout>
   </LinearLayout>
 </ScrollView>
