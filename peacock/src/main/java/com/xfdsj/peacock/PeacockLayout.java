@@ -79,10 +79,10 @@ public class PeacockLayout extends ViewGroup {
 
     if (attrs != null) {
       TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.PeacockLayout, 0, 0);
-      mFromDegrees = a.getFloat(R.styleable.PeacockLayout_fromDegrees, DEFAULT_FROM_DEGREES);
-      mToDegrees = a.getFloat(R.styleable.PeacockLayout_toDegrees, DEFAULT_TO_DEGREES);
-      mChildSize = Math.max(a.getDimensionPixelSize(R.styleable.PeacockLayout_childSize, 0), 0);
-      mIco = a.getDrawable(R.styleable.PeacockLayout_ico);
+      mFromDegrees = a.getFloat(R.styleable.PeacockLayout_startAngle, DEFAULT_FROM_DEGREES);
+      mToDegrees = a.getFloat(R.styleable.PeacockLayout_endAngle, DEFAULT_TO_DEGREES);
+      mChildSize = Math.max(a.getDimensionPixelSize(R.styleable.PeacockLayout_subMenuSize, 0), 0);
+      mIco = a.getDrawable(R.styleable.PeacockLayout_menuSrc);
       a.recycle();
     }
     mMenu = new ImageView(context);

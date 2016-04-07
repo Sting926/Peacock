@@ -31,14 +31,16 @@
         app:childSize="@dimen/menuChildSize"/>
 
     <com.xfdsj.peacock.PeacockLayout
+        android:id="@+id/peacock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:fromDegrees="180.0"
-        app:toDegrees="360.0"
-        app:childSize="@dimen/menuChildSize"
-        app:ico="@drawable/button_action_blue">
+        app:startAngle="180.0"
+        app:endAngle="360.0"
+        app:subMenuSize="@dimen/menuChildSize"
+        app:menuSrc="@drawable/button_action_blue">
 
       <ImageView
+          android:id="@+id/iv_1"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:src="@drawable/composer_camera"/>

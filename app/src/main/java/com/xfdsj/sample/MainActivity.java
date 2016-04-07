@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.capricorn.ArcMenu;
 import com.capricorn.RayMenu;
+import com.xfdsj.peacock.PeacockLayout;
 
 /**
  * @author Capricorn
@@ -60,6 +61,14 @@ public class MainActivity extends Activity {
         }
       });// Add a menu item
     }
+
+    final PeacockLayout peacockLayout = (PeacockLayout) findViewById(R.id.peacock);
+
+    findViewById(R.id.iv_1).setOnClickListener(new OnClickListener() {
+      @Override public void onClick(View v) {
+        peacockLayout.switchState(false);
+      }
+    });
   }
 
   private void initArcMenu(ArcMenu menu, int[] itemDrawables) {
