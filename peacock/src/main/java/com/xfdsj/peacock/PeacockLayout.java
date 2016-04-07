@@ -24,13 +24,16 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 
 /**
@@ -69,6 +72,8 @@ public class PeacockLayout extends ViewGroup {
   private int mRadius;
 
   private boolean mExpanded = false;
+
+  private OnClickListener itemListener;
 
   public PeacockLayout(Context context) {
     super(context);
@@ -304,7 +309,9 @@ public class PeacockLayout extends ViewGroup {
     if (showAnimation) {
       final int childCount = getChildCount() - 1;
       for (int i = 0; i < childCount; i++) {
-        bindChildAnimation(getChildAt(i), i, 300);
+        View item = getChildAt(i);
+        item.setOnClickListener(listener);
+        bindChildAnimation(item, i, 300);
       }
     }
 
@@ -323,5 +330,95 @@ public class PeacockLayout extends ViewGroup {
       getChildAt(i).clearAnimation();
     }
     requestLayout();
+  }
+
+  private OnClickListener listener = new OnClickListener() {
+
+    @Override public void onClick(final View viewClicked) {
+      Animation animation = bindItemAnimation(viewClicked, true, 400);
+      animation.setAnimationListener(new AnimationListener() {
+
+        @Override public void onAnimationStart(Animation animation) {
+
+        }
+
+        @Override public void onAnimationRepeat(Animation animation) {
+
+        }
+
+        @Override public void onAnimationEnd(Animation animation) {
+          postDelayed(new Runnable() {
+
+            @Override public void run() {
+              itemDidDisappear();
+            }
+          }, 0);
+        }
+      });
+
+      final int itemCount = getChildCount() - 1;
+      for (int i = 0; i < itemCount; i++) {
+        View item = getChildAt(i);
+        if (viewClicked != item) {
+          bindItemAnimation(item, false, 300);
+        }
+      }
+
+      invalidate();
+      mMenu.startAnimation(createHintSwitchAnimation(true));
+
+      if (itemListener != null) {
+        itemListener.onClick(viewClicked);
+      }
+    }
+  };
+
+  private Animation bindItemAnimation(final View child, final boolean isClicked,
+      final long duration) {
+    Animation animation = createItemDisappearAnimation(duration, isClicked);
+    child.setAnimation(animation);
+
+    return animation;
+  }
+
+  private void itemDidDisappear() {
+    final int itemCount = getChildCount() - 1;
+    for (int i = 0; i < itemCount; i++) {
+      View item = getChildAt(i);
+      item.clearAnimation();
+    }
+
+    switchState(false);
+  }
+
+  private static Animation createItemDisappearAnimation(final long duration,
+      final boolean isClicked) {
+    AnimationSet animationSet = new AnimationSet(true);
+    animationSet.addAnimation(
+        new ScaleAnimation(1.0f, isClicked ? 2.0f : 0.0f, 1.0f, isClicked ? 2.0f : 0.0f,
+            Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f));
+    animationSet.addAnimation(new AlphaAnimation(1.0f, 0.0f));
+
+    animationSet.setDuration(duration);
+    animationSet.setInterpolator(new DecelerateInterpolator());
+    animationSet.setFillAfter(true);
+
+    return animationSet;
+  }
+
+  private static Animation createHintSwitchAnimation(final boolean expanded) {
+    Animation animation =
+        new RotateAnimation(expanded ? 45 : 0, expanded ? 0 : 45, Animation.RELATIVE_TO_SELF, 0.5f,
+            Animation.RELATIVE_TO_SELF, 0.5f);
+    animation.setStartOffset(0);
+    animation.setDuration(100);
+    animation.setInterpolator(new DecelerateInterpolator());
+    animation.setFillAfter(true);
+
+    return animation;
+  }
+
+  public void setItemListener(OnClickListener itemListener) {
+    this.itemListener = itemListener;
   }
 }

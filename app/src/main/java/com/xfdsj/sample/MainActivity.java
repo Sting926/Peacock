@@ -63,10 +63,11 @@ public class MainActivity extends Activity {
     }
 
     final PeacockLayout peacockLayout = (PeacockLayout) findViewById(R.id.peacock);
-
-    findViewById(R.id.iv_1).setOnClickListener(new OnClickListener() {
+    peacockLayout.setItemListener(new OnClickListener() {
       @Override public void onClick(View v) {
-        peacockLayout.switchState(false);
+        if (v.getId() == R.id.iv_1) {
+          Toast.makeText(MainActivity.this, v.getId() + "", Toast.LENGTH_SHORT).show();
+        }
       }
     });
   }
