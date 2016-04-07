@@ -15,7 +15,7 @@
         <attr name="toDegrees"/>
         <attr name="childSize"/>
     </declare-styleable>
-	
+
 	<declare-styleable name="RayLayout">
 		<attr name="leftHolderWidth" format="dimension" />
 	</declare-styleable>
