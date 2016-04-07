@@ -45,9 +45,9 @@ public class PeacockLayout extends ViewGroup {
   /**
    * children will be set the same size.
    */
-  private int mChildSize;
+  private int mSubMenuSize;
 
-  private Drawable mIco;
+  private Drawable mMenuSrc;
 
   private ImageView mMenu;
 
@@ -55,13 +55,13 @@ public class PeacockLayout extends ViewGroup {
 
   private int mLayoutPadding = 10;
 
-  public static final float DEFAULT_FROM_DEGREES = 270.0f;
+  public static final float DEFAULT_START_ANGLE = 270.0f;
 
-  public static final float DEFAULT_TO_DEGREES = 360.0f;
+  public static final float DEFAULT_END_ANGLE = 360.0f;
 
-  private float mFromDegrees = DEFAULT_FROM_DEGREES;
+  private float mStartAngle = DEFAULT_START_ANGLE;
 
-  private float mToDegrees = DEFAULT_TO_DEGREES;
+  private float mEndAngle = DEFAULT_END_ANGLE;
 
   private static final int MIN_RADIUS = 100;
 
@@ -79,16 +79,16 @@ public class PeacockLayout extends ViewGroup {
 
     if (attrs != null) {
       TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.PeacockLayout, 0, 0);
-      mFromDegrees = a.getFloat(R.styleable.PeacockLayout_startAngle, DEFAULT_FROM_DEGREES);
-      mToDegrees = a.getFloat(R.styleable.PeacockLayout_endAngle, DEFAULT_TO_DEGREES);
-      mChildSize = Math.max(a.getDimensionPixelSize(R.styleable.PeacockLayout_subMenuSize, 0), 0);
-      mIco = a.getDrawable(R.styleable.PeacockLayout_menuSrc);
+      mStartAngle = a.getFloat(R.styleable.PeacockLayout_startAngle, DEFAULT_START_ANGLE);
+      mEndAngle = a.getFloat(R.styleable.PeacockLayout_endAngle, DEFAULT_END_ANGLE);
+      mSubMenuSize = Math.max(a.getDimensionPixelSize(R.styleable.PeacockLayout_subMenuSize, 0), 0);
+      mMenuSrc = a.getDrawable(R.styleable.PeacockLayout_menuSrc);
       a.recycle();
     }
     mMenu = new ImageView(context);
 
-    if (mIco != null) {
-      mMenu.setImageDrawable(mIco);
+    if (mMenuSrc != null) {
+      mMenu.setImageDrawable(mMenuSrc);
     }
     addView(mMenu);
     mMenu.setOnClickListener(new OnClickListener() {
@@ -125,19 +125,19 @@ public class PeacockLayout extends ViewGroup {
 
   @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     final int radius = mRadius =
-        computeRadius(Math.abs(mToDegrees - mFromDegrees), getChildCount() - 1, mChildSize,
+        computeRadius(Math.abs(mEndAngle - mStartAngle), getChildCount() - 1, mSubMenuSize,
             mChildPadding, MIN_RADIUS);
-    final int size = radius * 2 + mChildSize + mChildPadding + mLayoutPadding * 2;
+    final int size = radius * 2 + mSubMenuSize + mChildPadding + mLayoutPadding * 2;
 
     setMeasuredDimension(size, size);
 
 /*    final int count = getChildCount();
     for (int i = 1; i < count; i++) {
-      getChildAt(i).measure(MeasureSpec.makeMeasureSpec(mChildSize, MeasureSpec.EXACTLY),
-          MeasureSpec.makeMeasureSpec(mChildSize, MeasureSpec.EXACTLY));
+      getChildAt(i).measure(MeasureSpec.makeMeasureSpec(mSubMenuSize, MeasureSpec.EXACTLY),
+          MeasureSpec.makeMeasureSpec(mSubMenuSize, MeasureSpec.EXACTLY));
     }
-    getChildAt(0).measure(MeasureSpec.makeMeasureSpec(mChildSize * 2, MeasureSpec.EXACTLY),
-        MeasureSpec.makeMeasureSpec(mChildSize * 2, MeasureSpec.EXACTLY));*/
+    getChildAt(0).measure(MeasureSpec.makeMeasureSpec(mSubMenuSize * 2, MeasureSpec.EXACTLY),
+        MeasureSpec.makeMeasureSpec(mSubMenuSize * 2, MeasureSpec.EXACTLY));*/
   }
 
   @Override protected void onLayout(boolean changed, int l, int t, int r, int b) {
@@ -146,15 +146,15 @@ public class PeacockLayout extends ViewGroup {
     final int radius = mExpanded ? mRadius : 0;
 
     final int childCount = getChildCount() - 1;
-    final float perDegrees = (mToDegrees - mFromDegrees) / (childCount - 1);
+    final float perDegrees = (mEndAngle - mStartAngle) / (childCount - 1);
 
-    float degrees = mFromDegrees;
+    float degrees = mStartAngle;
     for (int i = 0; i < childCount; i++) {
-      Rect frame = computeChildFrame(centerX, centerY, radius, degrees, mChildSize);
+      Rect frame = computeChildFrame(centerX, centerY, radius, degrees, mSubMenuSize);
       degrees += perDegrees;
       getChildAt(i).layout(frame.left, frame.top, frame.right, frame.bottom);
     }
-    Rect frame = computeChildFrame(centerX, centerY, 0, 0, mChildSize * 2);
+    Rect frame = computeChildFrame(centerX, centerY, 0, 0, mSubMenuSize * 2);
     mMenu.layout(frame.left, frame.top, frame.right, frame.bottom);
     mMenu.bringToFront();
   }
@@ -225,9 +225,9 @@ public class PeacockLayout extends ViewGroup {
     final int radius = expanded ? 0 : mRadius;
 
     final int childCount = getChildCount() - 1;
-    final float perDegrees = (mToDegrees - mFromDegrees) / (childCount - 1);
+    final float perDegrees = (mEndAngle - mStartAngle) / (childCount - 1);
     Rect frame =
-        computeChildFrame(centerX, centerY, radius, mFromDegrees + index * perDegrees, mChildSize);
+        computeChildFrame(centerX, centerY, radius, mStartAngle + index * perDegrees, mSubMenuSize);
 
     final int toXDelta = frame.left - child.getLeft();
     final int toYDelta = frame.top - child.getTop();
@@ -273,28 +273,28 @@ public class PeacockLayout extends ViewGroup {
   }
 
   public void setArc(float fromDegrees, float toDegrees) {
-    if (mFromDegrees == fromDegrees && mToDegrees == toDegrees) {
+    if (mStartAngle == fromDegrees && mEndAngle == toDegrees) {
       return;
     }
 
-    mFromDegrees = fromDegrees;
-    mToDegrees = toDegrees;
+    mStartAngle = fromDegrees;
+    mEndAngle = toDegrees;
 
     requestLayout();
   }
 
   public void setChildSize(int size) {
-    if (mChildSize == size || size < 0) {
+    if (mSubMenuSize == size || size < 0) {
       return;
     }
 
-    mChildSize = size;
+    mSubMenuSize = size;
 
     requestLayout();
   }
 
   public int getChildSize() {
-    return mChildSize;
+    return mSubMenuSize;
   }
 
   /**
