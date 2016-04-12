@@ -14,8 +14,7 @@
       android:layout_height="wrap_content"
       android:background="@color/colorPrimary"
       app:startAngle="180.0"
-      app:endAngle="360.0"
-      app:subMenuSize="100dp">
+      app:endAngle="360.0">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -34,8 +33,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         app:startAngle="180.0"
-        app:endAngle="360.0"
-        app:subMenuSize="@dimen/menuChildSize">
+        app:endAngle="360.0">
 
       <ImageView
           android:layout_width="wrap_content"

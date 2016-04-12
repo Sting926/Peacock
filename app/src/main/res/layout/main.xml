@@ -36,7 +36,6 @@
         android:layout_height="wrap_content"
         app:startAngle="180.0"
         app:endAngle="360.0"
-        app:subMenuSize="@dimen/menuChildSize"
         app:menuSrc="@drawable/composer_button">
 
       <ImageView

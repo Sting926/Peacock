@@ -38,7 +38,7 @@ import android.widget.ImageView;
 
 /**
  * A Layout that arranges its children around its center. The arc can be set by
- * calling {@link #setArc(float, float) setArc()}. You can override the method
+ * calling {@link #setAngle(float, float) setAngle()}. You can override the method
  * {@link #onMeasure(int, int) onMeasure()}, otherwise it is always
  * WRAP_CONTENT.
  *
@@ -84,7 +84,6 @@ public class PeacockLayout extends ViewGroup {
       TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.PeacockLayout, 0, 0);
       mStartAngle = a.getFloat(R.styleable.PeacockLayout_startAngle, DEFAULT_START_ANGLE);
       mEndAngle = a.getFloat(R.styleable.PeacockLayout_endAngle, DEFAULT_END_ANGLE);
-      mSubMenuSize = Math.max(a.getDimensionPixelSize(R.styleable.PeacockLayout_subMenuSize, 0), 0);
       mMenuSrc = a.getDrawable(R.styleable.PeacockLayout_menuSrc);
       a.recycle();
     }
@@ -93,11 +92,13 @@ public class PeacockLayout extends ViewGroup {
 
     if (mMenuSrc != null) {
       mMenu.setImageDrawable(mMenuSrc);
-    }else {
+    } else {
       mMenu.setImageResource(R.drawable.peacock_menu);
     }
 
     addView(mMenu);
+
+    mSubMenuSize = (int) (mMenuSrc.getIntrinsicWidth() * 0.618);
 
     mMenu.setOnClickListener(new OnClickListener() {
       @Override public void onClick(View v) {
@@ -123,7 +124,7 @@ public class PeacockLayout extends ViewGroup {
   }
 
   private static Rect computeChildFrame(final int centerX, final int centerY, final int radius,
-      final float degrees, final double size) {
+      final float degrees, final int size) {
 
     final double childCenterX = centerX + radius * Math.cos(Math.toRadians(degrees));
     final double childCenterY = centerY + radius * Math.sin(Math.toRadians(degrees));
@@ -135,7 +136,7 @@ public class PeacockLayout extends ViewGroup {
   @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     final int radius = mRadius =
         computeRadius(Math.abs(mEndAngle - mStartAngle), getChildCount() - 1, mSubMenuSize,
-            mChildPadding, (int) (mSubMenuSize * 1.618));
+            mChildPadding, mMenuSrc.getIntrinsicWidth() / 2 + mSubMenuSize / 2);
     final int size = radius * 2 + mSubMenuSize + mChildPadding + mLayoutPadding * 2;
 
     setMeasuredDimension(size, size);
@@ -163,7 +164,7 @@ public class PeacockLayout extends ViewGroup {
       degrees += perDegrees;
       getChildAt(i).layout(frame.left, frame.top, frame.right, frame.bottom);
     }
-    Rect frame = computeChildFrame(centerX, centerY, 0, 0, mSubMenuSize * 1.618);
+    Rect frame = computeChildFrame(centerX, centerY, 0, 0, mMenuSrc.getIntrinsicWidth());
     mMenu.layout(frame.left, frame.top, frame.right, frame.bottom);
     mMenu.bringToFront();
   }
@@ -281,29 +282,15 @@ public class PeacockLayout extends ViewGroup {
     return mExpanded;
   }
 
-  public void setArc(float fromDegrees, float toDegrees) {
-    if (mStartAngle == fromDegrees && mEndAngle == toDegrees) {
+  public void setAngle(float startAngle, float endAngle) {
+    if (mStartAngle == startAngle && mEndAngle == endAngle) {
       return;
     }
 
-    mStartAngle = fromDegrees;
-    mEndAngle = toDegrees;
+    mStartAngle = startAngle;
+    mEndAngle = endAngle;
 
     requestLayout();
-  }
-
-  public void setChildSize(int size) {
-    if (mSubMenuSize == size || size < 0) {
-      return;
-    }
-
-    mSubMenuSize = size;
-
-    requestLayout();
-  }
-
-  public int getChildSize() {
-    return mSubMenuSize;
   }
 
   /**

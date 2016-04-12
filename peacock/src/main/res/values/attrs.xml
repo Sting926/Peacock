@@ -3,7 +3,6 @@
   <declare-styleable name="PeacockLayout">
     <attr name="startAngle" format="float|reference"/>
     <attr name="endAngle" format="float|reference"/>
-    <attr name="subMenuSize" format="dimension|reference"/>
     <attr name="menuSrc" format="reference|color"/>
   </declare-styleable>
 </resources>
