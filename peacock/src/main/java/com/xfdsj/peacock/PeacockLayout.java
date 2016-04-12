@@ -90,12 +90,15 @@ public class PeacockLayout extends ViewGroup {
       mMenuSrc = a.getDrawable(R.styleable.PeacockLayout_menuSrc);
       a.recycle();
     }
+
     mMenu = new ImageView(context);
 
     if (mMenuSrc != null) {
       mMenu.setImageDrawable(mMenuSrc);
     }
+
     addView(mMenu);
+
     mMenu.setOnClickListener(new OnClickListener() {
       @Override public void onClick(View v) {
         mMenu.startAnimation(createHintSwitchAnimation(isExpanded()));
