@@ -121,7 +121,7 @@ public class PeacockLayout extends ViewGroup {
   }
 
   private static Rect computeChildFrame(final int centerX, final int centerY, final int radius,
-      final float degrees, final int size) {
+      final float degrees, final double size) {
 
     final double childCenterX = centerX + radius * Math.cos(Math.toRadians(degrees));
     final double childCenterY = centerY + radius * Math.sin(Math.toRadians(degrees));
@@ -133,7 +133,7 @@ public class PeacockLayout extends ViewGroup {
   @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     final int radius = mRadius =
         computeRadius(Math.abs(mEndAngle - mStartAngle), getChildCount() - 1, mSubMenuSize,
-            mChildPadding, mSubMenuSize * 3 / 2);
+            mChildPadding, (int) (mSubMenuSize * 1.618));
     final int size = radius * 2 + mSubMenuSize + mChildPadding + mLayoutPadding * 2;
 
     setMeasuredDimension(size, size);
@@ -161,7 +161,7 @@ public class PeacockLayout extends ViewGroup {
       degrees += perDegrees;
       getChildAt(i).layout(frame.left, frame.top, frame.right, frame.bottom);
     }
-    Rect frame = computeChildFrame(centerX, centerY, 0, 0, mSubMenuSize * 2);
+    Rect frame = computeChildFrame(centerX, centerY, 0, 0, mSubMenuSize * 1.618);
     mMenu.layout(frame.left, frame.top, frame.right, frame.bottom);
     mMenu.bringToFront();
   }
