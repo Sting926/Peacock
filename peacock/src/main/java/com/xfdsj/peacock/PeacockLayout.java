@@ -66,8 +66,6 @@ public class PeacockLayout extends ViewGroup {
 
   private float mEndAngle = DEFAULT_END_ANGLE;
 
-  private static final int MIN_RADIUS = 100;
-
   /* the distance between the layout's center and any child's center */
   private int mRadius;
 
@@ -135,7 +133,7 @@ public class PeacockLayout extends ViewGroup {
   @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     final int radius = mRadius =
         computeRadius(Math.abs(mEndAngle - mStartAngle), getChildCount() - 1, mSubMenuSize,
-            mChildPadding, MIN_RADIUS);
+            mChildPadding, mSubMenuSize * 3 / 2);
     final int size = radius * 2 + mSubMenuSize + mChildPadding + mLayoutPadding * 2;
 
     setMeasuredDimension(size, size);
