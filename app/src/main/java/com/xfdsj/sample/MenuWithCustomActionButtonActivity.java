@@ -1,6 +1,5 @@
 package com.xfdsj.sample;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -12,10 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
-import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
-import com.xfdsj.sample.R;
+import com.xfdsj.peacock.FloatingActionMenu;
+import com.xfdsj.peacock.SubActionButton;
 
 public class MenuWithCustomActionButtonActivity extends ActionBarActivity {
 

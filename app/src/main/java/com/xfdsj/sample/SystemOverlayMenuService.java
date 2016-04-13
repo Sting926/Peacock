@@ -8,11 +8,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
-import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
-import com.xfdsj.sample.R;
+import com.xfdsj.peacock.FloatingActionButton;
+import com.xfdsj.peacock.FloatingActionMenu;
+import com.xfdsj.peacock.SubActionButton;
 
 public class SystemOverlayMenuService extends Service {
 

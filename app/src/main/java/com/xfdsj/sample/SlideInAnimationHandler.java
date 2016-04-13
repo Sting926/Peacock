@@ -8,9 +8,8 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
-
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
-import com.oguzdev.circularfloatingactionmenu.library.animation.MenuAnimationHandler;
+import com.xfdsj.peacock.FloatingActionMenu;
+import com.xfdsj.peacock.animation.MenuAnimationHandler;
 
 /**
  * Created by oguzbilgener on 23/07/14.
