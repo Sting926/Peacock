@@ -69,6 +69,8 @@ public class PeacockLayout extends ViewGroup {
   /* the distance between the layout's center and any child's center */
   private int mRadius;
 
+  private int mMinRadius;
+
   private boolean mExpanded = false;
 
   private OnClickListener itemListener;
@@ -99,6 +101,8 @@ public class PeacockLayout extends ViewGroup {
     addView(mMenu);
 
     mSubMenuSize = (int) (mMenuSrc.getIntrinsicWidth() * 0.618);
+
+    mMinRadius = (int) ((mMenuSrc.getIntrinsicWidth() / 2) / 0.618);
 
     mMenu.setOnClickListener(new OnClickListener() {
       @Override public void onClick(View v) {
@@ -136,7 +140,7 @@ public class PeacockLayout extends ViewGroup {
   @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     final int radius = mRadius =
         computeRadius(Math.abs(mEndAngle - mStartAngle), getChildCount() - 1, mSubMenuSize,
-            mChildPadding, mMenuSrc.getIntrinsicWidth() / 2 + mSubMenuSize / 2);
+            mChildPadding, mMinRadius);
     final int size = radius * 2 + mSubMenuSize + mChildPadding + mLayoutPadding * 2;
 
     setMeasuredDimension(size, size);
