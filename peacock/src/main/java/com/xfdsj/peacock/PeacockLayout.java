@@ -102,7 +102,7 @@ public class PeacockLayout extends ViewGroup {
 
     mSubMenuSize = (int) (mMenuSrc.getIntrinsicWidth() * 0.618);
 
-    mMinRadius = (int) ((mMenuSrc.getIntrinsicWidth() / 2) / 0.618);
+    mMinRadius = mMenuSrc.getIntrinsicWidth() / 2 + mSubMenuSize;
 
     mMenu.setOnClickListener(new OnClickListener() {
       @Override public void onClick(View v) {

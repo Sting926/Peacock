@@ -36,30 +36,30 @@
         android:layout_height="wrap_content"
         app:startAngle="180.0"
         app:endAngle="360.0"
-        app:menuSrc="@drawable/composer_button">
+        app:menuSrc="@drawable/peacock_menu">
 
       <ImageView
           android:id="@+id/iv_1"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:src="@drawable/composer_camera"/>
+          android:src="@drawable/peacock_submenu"/>
 
       <ImageView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:src="@drawable/composer_music"/>
+          android:src="@drawable/peacock_submenu"/>
 
       <ImageView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:src="@drawable/composer_place"/>
+          android:src="@drawable/peacock_submenu"/>
 
       <ImageView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:src="@drawable/composer_sleep"/>
+          android:src="@drawable/peacock_submenu"/>
 
-      <ImageView
+<!--      <ImageView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:src="@drawable/composer_thought"/>
@@ -67,7 +67,7 @@
       <ImageView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:src="@drawable/composer_with"/>
+          android:src="@drawable/composer_with"/>-->
     </com.xfdsj.peacock.PeacockLayout>
   </LinearLayout>
 </ScrollView>
