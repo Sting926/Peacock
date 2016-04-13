@@ -9,38 +9,4 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.xfdsj.sample.MenuWithFABActivity">
 
-  <com.xfdsj.peacock.PeacockLayout
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:background="@color/colorPrimary"
-      app:startAngle="180.0"
-      app:endAngle="360.0">
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:src="@drawable/composer_thought"/>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:src="@drawable/composer_with"/>
-
-    <com.xfdsj.peacock.PeacockLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        app:startAngle="180.0"
-        app:endAngle="360.0">
-
-      <ImageView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:src="@drawable/composer_camera"/>
-    </com.xfdsj.peacock.PeacockLayout>
-
-  </com.xfdsj.peacock.PeacockLayout>
-
 </RelativeLayout>
