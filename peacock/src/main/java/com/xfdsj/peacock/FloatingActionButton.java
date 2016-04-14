@@ -97,6 +97,7 @@ public class FloatingActionButton extends FrameLayout {
 
   @Override public void onViewAdded(View child) {
     super.onViewAdded(child);
+    getBackground().getIntrinsicWidth();
     if (child instanceof SubActionButton) {
       subActionItems.add(new Item(child, 0, 0));
       removeViewInLayout(child);
