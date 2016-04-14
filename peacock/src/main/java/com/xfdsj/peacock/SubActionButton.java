@@ -6,6 +6,7 @@ package com.xfdsj.peacock;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -19,6 +20,16 @@ public class SubActionButton extends FrameLayout {
     public static final int THEME_DARK = 1;
     public static final int THEME_LIGHTER = 2;
     public static final int THEME_DARKER = 3;
+
+    public SubActionButton(Context context) {
+        super(context);
+        setClickable(true);
+    }
+
+    public SubActionButton(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        setClickable(true);
+    }
 
     public SubActionButton(Context context, LayoutParams layoutParams, int theme, Drawable backgroundDrawable, View contentView, LayoutParams contentParams) {
         super(context);

@@ -94,6 +94,17 @@ public class FloatingActionButton extends FrameLayout {
         attach(layoutParams);
     }
 
+    @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int count = getChildCount();
+        for (int i = 0; i < count; i++) {
+            View child = getChildAt(i);
+            if (child instanceof SubActionButton){
+                removeView(child);
+            }
+        }
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
     /**
      * Sets the position of the button by calculating its Gravity from the position parameter
      * @param position one of 8 specified positions.

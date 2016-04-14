@@ -80,18 +80,18 @@ public class MenuWithFABActivity extends ActionBarActivity {
             (FloatingActionButton) findViewById(R.id.floatingBtn);
 
         // Set up customized SubActionButtons for the right center menu
-        SubActionButton.Builder lCSubBuilder = new SubActionButton.Builder(this);
-        lCSubBuilder.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_action_blue_selector));
+        SubActionButton.Builder SubBuilder = new SubActionButton.Builder(this);
+        SubBuilder.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_action_blue_selector));
 
         FrameLayout.LayoutParams blueContentParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         blueContentParams.setMargins(blueSubActionButtonContentMargin,
                           blueSubActionButtonContentMargin,
                           blueSubActionButtonContentMargin,
                           blueSubActionButtonContentMargin);
-        lCSubBuilder.setLayoutParams(blueContentParams);
+        SubBuilder.setLayoutParams(blueContentParams);
         // Set custom layout params
         FrameLayout.LayoutParams blueParams = new FrameLayout.LayoutParams(blueSubActionButtonSize, blueSubActionButtonSize);
-        lCSubBuilder.setLayoutParams(blueParams);
+        SubBuilder.setLayoutParams(blueParams);
 
         ImageView lcIcon1 = new ImageView(this);
         ImageView lcIcon2 = new ImageView(this);
@@ -107,11 +107,11 @@ public class MenuWithFABActivity extends ActionBarActivity {
 
         // Build another menu with custom options
         final FloatingActionMenu leftCenterMenu = new FloatingActionMenu.Builder(this)
-                .addSubActionView(lCSubBuilder.setContentView(lcIcon1, blueContentParams).build())
-                .addSubActionView(lCSubBuilder.setContentView(lcIcon2, blueContentParams).build())
-                .addSubActionView(lCSubBuilder.setContentView(lcIcon3, blueContentParams).build())
-                .addSubActionView(lCSubBuilder.setContentView(lcIcon4, blueContentParams).build())
-                .addSubActionView(lCSubBuilder.setContentView(lcIcon5, blueContentParams).build())
+                .addSubActionView(SubBuilder.setContentView(lcIcon1, blueContentParams).build())
+                .addSubActionView(SubBuilder.setContentView(lcIcon2, blueContentParams).build())
+                .addSubActionView(SubBuilder.setContentView(lcIcon3, blueContentParams).build())
+                .addSubActionView(SubBuilder.setContentView(lcIcon4, blueContentParams).build())
+                .addSubActionView(SubBuilder.setContentView(lcIcon5, blueContentParams).build())
                 .setRadius(redActionMenuRadius)
                 .setStartAngle(180)
                 .setEndAngle(360)
