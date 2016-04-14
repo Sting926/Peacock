@@ -1,6 +1,3 @@
-/*
- *   Copyright 2014 Oguz Bilgener
- */
 package com.xfdsj.peacock;
 
 import android.content.Context;
