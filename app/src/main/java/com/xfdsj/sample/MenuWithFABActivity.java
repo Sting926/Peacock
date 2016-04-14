@@ -79,7 +79,7 @@ public class MenuWithFABActivity extends ActionBarActivity {
         int redActionMenuRadius = getResources().getDimensionPixelSize(R.dimen.red_action_menu_radius);
         int blueSubActionButtonSize = getResources().getDimensionPixelSize(R.dimen.blue_sub_action_button_size);
         int blueSubActionButtonContentMargin = getResources().getDimensionPixelSize(R.dimen.blue_sub_action_button_content_margin);
-            
+
         ImageView fabIconStar = new ImageView(this);
         fabIconStar.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_important));
 
@@ -88,7 +88,6 @@ public class MenuWithFABActivity extends ActionBarActivity {
                               redActionButtonMargin,
                               redActionButtonMargin,
                               redActionButtonMargin);
-        fabIconStar.setLayoutParams(starParams);
 
         FloatingActionButton.LayoutParams fabIconStarParams = new FloatingActionButton.LayoutParams(redActionButtonContentSize, redActionButtonContentSize);
         fabIconStarParams.setMargins(redActionButtonContentMargin,
@@ -142,7 +141,12 @@ public class MenuWithFABActivity extends ActionBarActivity {
                 .attachTo(leftCenterButton)
                 .build();
 
+      //initView();
+    }
 
+    void initView(){
+      //FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingBtn);
+      //floatingActionButton
     }
 
 

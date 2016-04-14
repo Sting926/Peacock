@@ -5,9 +5,11 @@ package com.xfdsj.peacock;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +37,22 @@ public class FloatingActionButton extends FrameLayout {
     private View contentView;
 
     private boolean systemOverlay;
+
+    public FloatingActionButton(Context context) {
+        super(context);
+    }
+
+    public FloatingActionButton(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        if (attrs != null) {
+            TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.PeacockLayout, 0, 0);
+/*            mStartAngle = a.getFloat(R.styleable.PeacockLayout_startAngle, DEFAULT_START_ANGLE);
+            mEndAngle = a.getFloat(R.styleable.PeacockLayout_endAngle, DEFAULT_END_ANGLE);
+            mMenuSrc = a.getDrawable(R.styleable.PeacockLayout_menuSrc);*/
+            a.recycle();
+        }
+
+    }
 
     /**
      * Constructor that takes parameters collected using {@link FloatingActionMenu.Builder}
