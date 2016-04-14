@@ -99,7 +99,7 @@ public class MenuWithFABActivity extends ActionBarActivity {
         final FloatingActionButton leftCenterButton = new FloatingActionButton.Builder(this)
                                                 .setContentView(fabIconStar, fabIconStarParams)
                                                 .setBackgroundDrawable(R.drawable.button_action_red_selector)
-                                                .setPosition(FloatingActionButton.POSITION_BOTTOM_CENTER)
+                                                .setPosition(FloatingActionButton.POSITION_LEFT_CENTER)
                                                 .setLayoutParams(starParams)
                                                 .build();
 
