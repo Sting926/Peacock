@@ -72,35 +72,12 @@ public class MenuWithFABActivity extends ActionBarActivity {
 
         // Set up the large red button on the center right side
         // With custom button and content sizes and margins
-        int redActionButtonSize = getResources().getDimensionPixelSize(R.dimen.red_action_button_size);
-        int redActionButtonMargin = getResources().getDimensionPixelOffset(R.dimen.action_button_margin);
-        int redActionButtonContentSize = getResources().getDimensionPixelSize(R.dimen.red_action_button_content_size);
-        int redActionButtonContentMargin = getResources().getDimensionPixelSize(R.dimen.red_action_button_content_margin);
         int redActionMenuRadius = getResources().getDimensionPixelSize(R.dimen.red_action_menu_radius);
         int blueSubActionButtonSize = getResources().getDimensionPixelSize(R.dimen.blue_sub_action_button_size);
         int blueSubActionButtonContentMargin = getResources().getDimensionPixelSize(R.dimen.blue_sub_action_button_content_margin);
 
-        ImageView fabIconStar = new ImageView(this);
-        fabIconStar.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_important));
-
-        FloatingActionButton.LayoutParams starParams = new FloatingActionButton.LayoutParams(redActionButtonSize, redActionButtonSize);
-        starParams.setMargins(redActionButtonMargin,
-                              redActionButtonMargin,
-                              redActionButtonMargin,
-                              redActionButtonMargin);
-
-        FloatingActionButton.LayoutParams fabIconStarParams = new FloatingActionButton.LayoutParams(redActionButtonContentSize, redActionButtonContentSize);
-        fabIconStarParams.setMargins(redActionButtonContentMargin,
-                                    redActionButtonContentMargin,
-                                    redActionButtonContentMargin,
-                                    redActionButtonContentMargin);
-
-        final FloatingActionButton leftCenterButton = new FloatingActionButton.Builder(this)
-                                                .setContentView(fabIconStar, fabIconStarParams)
-                                                .setBackgroundDrawable(R.drawable.button_action_red_selector)
-                                                .setPosition(FloatingActionButton.POSITION_LEFT_CENTER)
-                                                .setLayoutParams(starParams)
-                                                .build();
+        final FloatingActionButton leftCenterButton =
+            (FloatingActionButton) findViewById(R.id.floatingBtn);
 
         // Set up customized SubActionButtons for the right center menu
         SubActionButton.Builder lCSubBuilder = new SubActionButton.Builder(this);
@@ -136,19 +113,12 @@ public class MenuWithFABActivity extends ActionBarActivity {
                 .addSubActionView(lCSubBuilder.setContentView(lcIcon4, blueContentParams).build())
                 .addSubActionView(lCSubBuilder.setContentView(lcIcon5, blueContentParams).build())
                 .setRadius(redActionMenuRadius)
-                .setStartAngle(70)
-                .setEndAngle(-70)
+                .setStartAngle(180)
+                .setEndAngle(360)
                 .attachTo(leftCenterButton)
                 .build();
 
-      //initView();
     }
-
-    void initView(){
-      //FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingBtn);
-      //floatingActionButton
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

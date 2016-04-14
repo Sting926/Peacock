@@ -51,7 +51,7 @@ public class FloatingActionButton extends FrameLayout {
             mMenuSrc = a.getDrawable(R.styleable.PeacockLayout_menuSrc);*/
             a.recycle();
         }
-
+        setClickable(true);
     }
 
     /**
