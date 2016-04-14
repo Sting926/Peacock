@@ -14,5 +14,26 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:background="@drawable/button_action_red_selector"
-      android:layout_centerInParent="true"/>
+      android:layout_centerInParent="true">
+    <com.xfdsj.peacock.SubActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_action_camera"/>
+    <com.xfdsj.peacock.SubActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_action_picture"/>
+    <com.xfdsj.peacock.SubActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_action_video"/>
+    <com.xfdsj.peacock.SubActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_action_location_found"/>
+    <com.xfdsj.peacock.SubActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_action_headphones"/>
+  </com.xfdsj.peacock.FloatingActionButton>
 </RelativeLayout>

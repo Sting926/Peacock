@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An alternative Floating Action Button implementation that can be independently placed in
@@ -35,6 +37,8 @@ public class FloatingActionButton extends FrameLayout {
     public static final int POSITION_TOP_LEFT = 8;
 
     private View contentView;
+    /** List of menu items */
+    private List<Item> subActionItems;
 
     private boolean systemOverlay;
 
@@ -52,6 +56,7 @@ public class FloatingActionButton extends FrameLayout {
             a.recycle();
         }
         setClickable(true);
+        subActionItems = new ArrayList<>();
     }
 
     /**
@@ -94,15 +99,21 @@ public class FloatingActionButton extends FrameLayout {
         attach(layoutParams);
     }
 
-    @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int count = getChildCount();
-        for (int i = 0; i < count; i++) {
-            View child = getChildAt(i);
-            if (child instanceof SubActionButton){
-                removeView(child);
+    @Override public void onViewAdded(View child) {
+        super.onViewAdded(child);
+        if (child instanceof SubActionButton){
+            subActionItems.add(new Item(child, 0, 0));
+            removeViewInLayout(child);
+        }
+    }
+
+    @Override public void onViewRemoved(View child) {
+        super.onViewRemoved(child);
+        for (int i = 0; i < subActionItems.size(); i ++){
+            if (subActionItems.get(i).view == child){
+                subActionItems.remove(i);
             }
         }
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     /**
@@ -245,6 +256,26 @@ public class FloatingActionButton extends FrameLayout {
         }
         else {
             setBackgroundDrawable(drawable);
+        }
+    }
+
+    public static class Item {
+        public int x;
+        public int y;
+        public int width;
+        public int height;
+
+        public float alpha;
+
+        public View view;
+
+        public Item(View view, int width, int height) {
+            this.view = view;
+            this.width = width;
+            this.height = height;
+            alpha = view.getAlpha();
+            x = 0;
+            y = 0;
         }
     }
 
