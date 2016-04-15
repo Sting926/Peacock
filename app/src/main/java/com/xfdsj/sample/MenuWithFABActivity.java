@@ -1,9 +1,16 @@
 package com.xfdsj.sample;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
+import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
 public class MenuWithFABActivity extends ActionBarActivity {
 
@@ -11,7 +18,7 @@ public class MenuWithFABActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_with_fab);
-/*
+
         // Set up the white button on the lower right corner
         // more or less with default parameter
         final ImageView fabIconNew = new ImageView(this);
@@ -61,6 +68,7 @@ public class MenuWithFABActivity extends ActionBarActivity {
                 animation.start();
             }
         });
+        /*
 
         // Set up the large red button on the center right side
         // With custom button and content sizes and margins
@@ -109,7 +117,8 @@ public class MenuWithFABActivity extends ActionBarActivity {
                 .setEndAngle(360)
                 .attachTo(leftCenterButton)
                 .build();
-*/
+        */
+
     }
 
     @Override

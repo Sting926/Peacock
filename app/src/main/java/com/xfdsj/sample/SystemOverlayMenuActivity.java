@@ -8,8 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.xfdsj.sample.R;
-
 public class SystemOverlayMenuActivity extends ActionBarActivity {
 
     @Override

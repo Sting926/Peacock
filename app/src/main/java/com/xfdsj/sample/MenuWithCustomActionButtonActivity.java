@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import com.xfdsj.peacock.FloatingActionMenu;
-import com.xfdsj.peacock.SubActionButton;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
+import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
 public class MenuWithCustomActionButtonActivity extends ActionBarActivity {
 

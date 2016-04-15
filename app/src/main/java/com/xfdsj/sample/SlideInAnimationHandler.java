@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
-import com.xfdsj.peacock.FloatingActionButton;
-import com.xfdsj.peacock.animation.MenuAnimationHandler;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
+import com.oguzdev.circularfloatingactionmenu.library.animation.MenuAnimationHandler;
 
 /**
  * Created by oguzbilgener on 23/07/14.
@@ -117,10 +117,10 @@ public class SlideInAnimationHandler extends MenuAnimationHandler {
 
     protected class SubActionItemAnimationListener implements Animator.AnimatorListener {
 
-        private FloatingActionButton.Item subActionItem;
+        private FloatingActionMenu.Item subActionItem;
         private ActionType actionType;
 
-        public SubActionItemAnimationListener(FloatingActionButton.Item subActionItem, ActionType actionType) {
+        public SubActionItemAnimationListener(FloatingActionMenu.Item subActionItem, ActionType actionType) {
             this.subActionItem = subActionItem;
             this.actionType = actionType;
         }

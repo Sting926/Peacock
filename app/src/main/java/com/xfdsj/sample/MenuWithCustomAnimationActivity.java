@@ -9,9 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import com.xfdsj.peacock.FloatingActionButton;
-import com.xfdsj.peacock.FloatingActionMenu;
-import com.xfdsj.peacock.SubActionButton;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
+import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
 public class MenuWithCustomAnimationActivity extends ActionBarActivity {
 
