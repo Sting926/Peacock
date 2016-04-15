@@ -15,11 +15,16 @@
       android:layout_height="wrap_content"
       android:background="@drawable/button_action_red_selector"
       android:layout_centerInParent="true"
-      app:menuIco="@drawable/ic_action_important">
+      app:startAngle="180"
+      app:endAngle="360"
+      app:menuIco="@drawable/ic_action_important"
+      app:radius="@dimen/action_menu_radius">
 
     <com.xfdsj.peacock.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:startAngle="0"
+        app:endAngle="0"
         app:menuIco="@drawable/ic_action_camera">
 
       <com.xfdsj.peacock.FloatingActionButton

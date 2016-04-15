@@ -190,6 +190,9 @@ public class FloatingActionButton extends FrameLayout {
     RectF area =
         new RectF(center.x - radius, center.y - radius, center.x + radius, center.y + radius);
 
+    if (startAngle == endAngle) {
+      endAngle += 360.0f;
+    }
     Path orbit = new Path();
     orbit.addArc(area, startAngle, endAngle - startAngle);
 
