@@ -46,7 +46,7 @@ public class FloatingActionButton extends FrameLayout {
   /** The angle (in degrees, modulus 360) which the circular menu ends at */
   private int endAngle = 360;
   /** Distance of menu items from mainActionView */
-  private int radius = 250;
+  private int radius = 300;
   /** List of menu items */
   private List<Item> subActionItems;
   /** Reference to the preferred {@link MenuAnimationHandler} object */
@@ -61,7 +61,7 @@ public class FloatingActionButton extends FrameLayout {
   public FloatingActionButton(Context context, AttributeSet attrs) {
     super(context, attrs);
     if (attrs != null) {
-      TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.PeacockLayout, 0, 0);
+      TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.peacock, 0, 0);
 /*            mStartAngle = a.getFloat(R.styleable.PeacockLayout_startAngle, DEFAULT_START_ANGLE);
             mEndAngle = a.getFloat(R.styleable.PeacockLayout_endAngle, DEFAULT_END_ANGLE);
             mMenuSrc = a.getDrawable(R.styleable.PeacockLayout_menuSrc);*/
@@ -112,7 +112,7 @@ public class FloatingActionButton extends FrameLayout {
   @Override public void onViewAdded(View child) {
     super.onViewAdded(child);
     int size = (int) (getBackground().getIntrinsicWidth() * 0.618);
-    if (child instanceof SubActionButton) {
+    if (child instanceof FloatingActionButton) {
       subActionItems.add(new Item(child, size, size));
       removeViewInLayout(child);
     }

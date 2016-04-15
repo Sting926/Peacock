@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-  <declare-styleable name="PeacockLayout">
+  <declare-styleable name="peacock">
     <attr name="startAngle" format="float|reference"/>
     <attr name="endAngle" format="float|reference"/>
     <attr name="menuSrc" format="reference|color"/>

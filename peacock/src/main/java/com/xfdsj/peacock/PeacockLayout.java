@@ -83,10 +83,10 @@ public class PeacockLayout extends ViewGroup {
     super(context, attrs);
 
     if (attrs != null) {
-      TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.PeacockLayout, 0, 0);
-      mStartAngle = a.getFloat(R.styleable.PeacockLayout_startAngle, DEFAULT_START_ANGLE);
-      mEndAngle = a.getFloat(R.styleable.PeacockLayout_endAngle, DEFAULT_END_ANGLE);
-      mMenuSrc = a.getDrawable(R.styleable.PeacockLayout_menuSrc);
+      TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.peacock, 0, 0);
+      mStartAngle = a.getFloat(R.styleable.peacock_startAngle, DEFAULT_START_ANGLE);
+      mEndAngle = a.getFloat(R.styleable.peacock_endAngle, DEFAULT_END_ANGLE);
+      mMenuSrc = a.getDrawable(R.styleable.peacock_menuSrc);
       a.recycle();
     }
 
