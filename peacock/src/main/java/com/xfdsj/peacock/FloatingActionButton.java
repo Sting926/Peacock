@@ -9,6 +9,7 @@ import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -80,16 +81,10 @@ public class FloatingActionButton extends FrameLayout {
       a.recycle();
     }
     if (getBackground() == null) {
-      setBackgroundResource(R.drawable.button_action_selector);
+      setBackgroundResource(R.drawable.peacock_background);
     }
     if (menuIco != null) {
-      menu = new ImageView(context);
-      menu.setImageDrawable(menuIco);
-      LayoutParams params =
-          new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, Gravity.CENTER);
-      int margin = getResources().getDimensionPixelSize(R.dimen.action_button_content_margin);
-      params.setMargins(margin, margin, margin, margin);
-      this.addView(menu, params);
+      setMenuIco(menuIco);
     }
     setClickable(true);
     setOnClickListener(new ActionViewClickListener());
@@ -136,11 +131,32 @@ public class FloatingActionButton extends FrameLayout {
   @Override public void onViewAdded(View child) {
     super.onViewAdded(child);
     if (child instanceof FloatingActionButton) {
-      int width = child.getBackground().getIntrinsicWidth();
-      int height = child.getBackground().getIntrinsicWidth();
+      FloatingActionButton button = (FloatingActionButton) child;
+      int width = button.getSelfWidth();
+      int height = button.getSelfHeight();
       subActionItems.add(new Item(child, width, height));
       removeViewInLayout(child);
     }
+  }
+
+  public int getSelfWidth() {
+    if (getBackground() instanceof BitmapDrawable) {
+      return getBackground().getIntrinsicWidth();
+    } else if (menu != null && menu.getDrawable() instanceof BitmapDrawable) {
+      int margin = getResources().getDimensionPixelSize(R.dimen.action_button_content_margin);
+      return menu.getDrawable().getIntrinsicWidth() + margin * 2;
+    }
+    return 0;
+  }
+
+  public int getSelfHeight() {
+    if (getBackground() instanceof BitmapDrawable) {
+      return getBackground().getIntrinsicHeight();
+    } else if (menu != null && menu.getDrawable() instanceof BitmapDrawable) {
+      int margin = getResources().getDimensionPixelSize(R.dimen.action_button_content_margin);
+      return menu.getDrawable().getIntrinsicHeight() + margin * 2;
+    }
+    return 0;
   }
 
   private void addViewToCurrentContainer(View view, ViewGroup.LayoutParams layoutParams) {
@@ -368,6 +384,23 @@ public class FloatingActionButton extends FrameLayout {
 
   public List<Item> getSubActionItems() {
     return subActionItems;
+  }
+
+  public Drawable getMenuIco() {
+    return menuIco;
+  }
+
+  public void setMenuIco(Drawable menuIco) {
+    if (menu == null) {
+      menu = new ImageView(getContext());
+      LayoutParams params =
+          new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, Gravity.CENTER);
+      int margin = getResources().getDimensionPixelSize(R.dimen.action_button_content_margin);
+      params.setMargins(margin, margin, margin, margin);
+      this.addView(menu, params);
+    }
+    menu.setImageDrawable(menuIco);
+    this.menuIco = menuIco;
   }
 
   /**
