@@ -50,7 +50,7 @@ public class PeacockLayout extends ViewGroup {
    */
   private int mSubMenuSize;
 
-  private Drawable mMenuSrc;
+  private Drawable mMenuIco;
 
   private ImageView mMenu;
 
@@ -83,26 +83,26 @@ public class PeacockLayout extends ViewGroup {
     super(context, attrs);
 
     if (attrs != null) {
-      TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.peacock, 0, 0);
-      mStartAngle = a.getFloat(R.styleable.peacock_startAngle, DEFAULT_START_ANGLE);
-      mEndAngle = a.getFloat(R.styleable.peacock_endAngle, DEFAULT_END_ANGLE);
-      mMenuSrc = a.getDrawable(R.styleable.peacock_menuSrc);
+      TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.Peacock, 0, 0);
+      mStartAngle = a.getFloat(R.styleable.Peacock_startAngle, DEFAULT_START_ANGLE);
+      mEndAngle = a.getFloat(R.styleable.Peacock_endAngle, DEFAULT_END_ANGLE);
+      mMenuIco = a.getDrawable(R.styleable.Peacock_menuIco);
       a.recycle();
     }
 
     mMenu = new ImageView(context);
 
-    if (mMenuSrc != null) {
-      mMenu.setImageDrawable(mMenuSrc);
+    if (mMenuIco != null) {
+      mMenu.setImageDrawable(mMenuIco);
     } else {
       mMenu.setImageResource(R.drawable.peacock_menu);
     }
 
     addView(mMenu);
 
-    mSubMenuSize = (int) (mMenuSrc.getIntrinsicWidth() * 0.618);
+    mSubMenuSize = (int) (mMenuIco.getIntrinsicWidth() * 0.618);
 
-    mMinRadius = mMenuSrc.getIntrinsicWidth() / 2 + mSubMenuSize;
+    mMinRadius = mMenuIco.getIntrinsicWidth() / 2 + mSubMenuSize;
 
     mMenu.setOnClickListener(new OnClickListener() {
       @Override public void onClick(View v) {
@@ -168,7 +168,7 @@ public class PeacockLayout extends ViewGroup {
       degrees += perDegrees;
       getChildAt(i).layout(frame.left, frame.top, frame.right, frame.bottom);
     }
-    Rect frame = computeChildFrame(centerX, centerY, 0, 0, mMenuSrc.getIntrinsicWidth());
+    Rect frame = computeChildFrame(centerX, centerY, 0, 0, mMenuIco.getIntrinsicWidth());
     mMenu.layout(frame.left, frame.top, frame.right, frame.bottom);
     mMenu.bringToFront();
   }

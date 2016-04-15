@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-  <declare-styleable name="peacock">
+  <declare-styleable name="Peacock">
     <attr name="startAngle" format="float|reference"/>
     <attr name="endAngle" format="float|reference"/>
-    <attr name="menuSrc" format="reference|color"/>
+    <attr name="radius" format="integer|reference"/>
+    <attr name="menuIco" format="reference|color"/>
   </declare-styleable>
 </resources>

@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import com.xfdsj.peacock.animation.DefaultAnimationHandler;
 import com.xfdsj.peacock.animation.MenuAnimationHandler;
 import java.util.ArrayList;
@@ -40,13 +41,23 @@ public class FloatingActionButton extends FrameLayout {
   public static final int POSITION_LEFT_CENTER = 7;
   public static final int POSITION_TOP_LEFT = 8;
 
+  public static final float DEFAULT_START_ANGLE = 180.0f;
+
+  public static final float DEFAULT_END_ANGLE = 360.0f;
+
+  public static final int DEFAULT_RADIUS = 250;
+
   private View contentView;
+
+  private Drawable menuIco;
+
+  private ImageView menu;
   /** The angle (in degrees, modulus 360) which the circular menu starts from */
-  private int startAngle = 180;
+  private float startAngle;
   /** The angle (in degrees, modulus 360) which the circular menu ends at */
-  private int endAngle = 360;
+  private float endAngle;
   /** Distance of menu items from mainActionView */
-  private int radius = 300;
+  private int radius;
   /** List of menu items */
   private List<Item> subActionItems;
   /** Reference to the preferred {@link MenuAnimationHandler} object */
@@ -61,11 +72,24 @@ public class FloatingActionButton extends FrameLayout {
   public FloatingActionButton(Context context, AttributeSet attrs) {
     super(context, attrs);
     if (attrs != null) {
-      TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.peacock, 0, 0);
-/*            mStartAngle = a.getFloat(R.styleable.PeacockLayout_startAngle, DEFAULT_START_ANGLE);
-            mEndAngle = a.getFloat(R.styleable.PeacockLayout_endAngle, DEFAULT_END_ANGLE);
-            mMenuSrc = a.getDrawable(R.styleable.PeacockLayout_menuSrc);*/
+      TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.Peacock, 0, 0);
+      startAngle = a.getFloat(R.styleable.Peacock_startAngle, DEFAULT_START_ANGLE);
+      endAngle = a.getFloat(R.styleable.Peacock_endAngle, DEFAULT_END_ANGLE);
+      radius = a.getDimensionPixelSize(R.styleable.Peacock_radius, DEFAULT_RADIUS);
+      menuIco = a.getDrawable(R.styleable.Peacock_menuIco);
       a.recycle();
+    }
+    if (getBackground() == null) {
+      setBackgroundResource(R.drawable.button_action_dark_selector);
+    }
+    if (menuIco != null) {
+      menu = new ImageView(context);
+      menu.setImageDrawable(menuIco);
+      LayoutParams params =
+          new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, Gravity.CENTER);
+      int margin = getResources().getDimensionPixelSize(R.dimen.action_button_content_margin);
+      params.setMargins(margin, margin, margin, margin);
+      this.addView(menu, params);
     }
     setClickable(true);
     setOnClickListener(new ActionViewClickListener());
@@ -111,9 +135,10 @@ public class FloatingActionButton extends FrameLayout {
 
   @Override public void onViewAdded(View child) {
     super.onViewAdded(child);
-    int size = (int) (getBackground().getIntrinsicWidth() * 0.618);
+    int width = child.getBackground().getIntrinsicWidth();
+    int height = child.getBackground().getIntrinsicWidth();
     if (child instanceof FloatingActionButton) {
-      subActionItems.add(new Item(child, size, size));
+      subActionItems.add(new Item(child, width, height));
       removeViewInLayout(child);
     }
   }
