@@ -80,7 +80,7 @@ public class FloatingActionButton extends FrameLayout {
       a.recycle();
     }
     if (getBackground() == null) {
-      setBackgroundResource(R.drawable.button_action_dark_selector);
+      setBackgroundResource(R.drawable.button_action_selector);
     }
     if (menuIco != null) {
       menu = new ImageView(context);
@@ -135,9 +135,9 @@ public class FloatingActionButton extends FrameLayout {
 
   @Override public void onViewAdded(View child) {
     super.onViewAdded(child);
-    int width = child.getBackground().getIntrinsicWidth();
-    int height = child.getBackground().getIntrinsicWidth();
     if (child instanceof FloatingActionButton) {
+      int width = child.getBackground().getIntrinsicWidth();
+      int height = child.getBackground().getIntrinsicWidth();
       subActionItems.add(new Item(child, width, height));
       removeViewInLayout(child);
     }

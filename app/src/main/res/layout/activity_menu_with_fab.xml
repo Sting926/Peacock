@@ -9,61 +9,73 @@
     tools:context="com.xfdsj.sample.MenuWithFABActivity">
 
   <com.xfdsj.peacock.FloatingActionButton
+      xmlns:app="http://schemas.android.com/apk/res-auto"
       android:id="@+id/floatingBtn"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:background="@drawable/button_action_red_selector"
-      android:layout_centerInParent="true">
+      android:layout_centerInParent="true"
+      app:menuIco="@drawable/ic_action_important">
 
     <com.xfdsj.peacock.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_action_camera">
+        android:background="@drawable/button_action_blue_selector"
+        app:menuIco="@drawable/ic_action_camera">
 
       <com.xfdsj.peacock.FloatingActionButton
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:background="@drawable/ic_action_camera"/>
+          android:background="@drawable/button_action_blue_selector"
+          app:menuIco="@drawable/ic_action_camera"/>
 
       <com.xfdsj.peacock.FloatingActionButton
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:background="@drawable/ic_action_picture"/>
+          android:background="@drawable/button_action_blue_selector"
+          app:menuIco="@drawable/ic_action_picture"/>
 
       <com.xfdsj.peacock.FloatingActionButton
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:background="@drawable/ic_action_video"/>
+          android:background="@drawable/button_action_blue_selector"
+          app:menuIco="@drawable/ic_action_video"/>
 
       <com.xfdsj.peacock.FloatingActionButton
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:background="@drawable/ic_action_location_found"/>
+          android:background="@drawable/button_action_blue_selector"
+          app:menuIco="@drawable/ic_action_location_found"/>
 
       <com.xfdsj.peacock.FloatingActionButton
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:background="@drawable/ic_action_headphones"/>
+          android:background="@drawable/button_action_blue_selector"
+          app:menuIco="@drawable/ic_action_headphones"/>
     </com.xfdsj.peacock.FloatingActionButton>
 
     <com.xfdsj.peacock.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_action_picture"/>
+        android:background="@drawable/button_action_blue_selector"
+        app:menuIco="@drawable/ic_action_picture"/>
 
     <com.xfdsj.peacock.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_action_video"/>
+        android:background="@drawable/button_action_blue_selector"
+        app:menuIco="@drawable/ic_action_video"/>
 
     <com.xfdsj.peacock.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_action_location_found"/>
+        android:background="@drawable/button_action_blue_selector"
+        app:menuIco="@drawable/ic_action_location_found"/>
 
     <com.xfdsj.peacock.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_action_headphones"/>
+        android:background="@drawable/button_action_blue_selector"
+        app:menuIco="@drawable/ic_action_headphones"/>
   </com.xfdsj.peacock.FloatingActionButton>
 </RelativeLayout>

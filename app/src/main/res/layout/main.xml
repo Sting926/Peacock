@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         app:startAngle="180.0"
         app:endAngle="360.0"
-        app:menuSrc="@drawable/peacock_menu">
+        app:menuIco="@drawable/peacock_menu">
 
       <ImageView
           android:id="@+id/iv_1"
