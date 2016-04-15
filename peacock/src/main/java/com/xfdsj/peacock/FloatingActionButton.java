@@ -53,6 +53,9 @@ public class FloatingActionButton extends FrameLayout {
   private Drawable menuIco;
 
   private ImageView menu;
+
+  private int menuMargin =
+      getResources().getDimensionPixelSize(R.dimen.action_button_content_margin);
   /** The angle (in degrees, modulus 360) which the circular menu starts from */
   private float startAngle;
   /** The angle (in degrees, modulus 360) which the circular menu ends at */
@@ -143,8 +146,7 @@ public class FloatingActionButton extends FrameLayout {
     if (getBackground() instanceof BitmapDrawable) {
       return getBackground().getIntrinsicWidth();
     } else if (menu != null && menu.getDrawable() instanceof BitmapDrawable) {
-      int margin = getResources().getDimensionPixelSize(R.dimen.action_button_content_margin);
-      return menu.getDrawable().getIntrinsicWidth() + margin * 2;
+      return menu.getDrawable().getIntrinsicWidth() + menuMargin * 2;
     }
     return 0;
   }
@@ -153,8 +155,7 @@ public class FloatingActionButton extends FrameLayout {
     if (getBackground() instanceof BitmapDrawable) {
       return getBackground().getIntrinsicHeight();
     } else if (menu != null && menu.getDrawable() instanceof BitmapDrawable) {
-      int margin = getResources().getDimensionPixelSize(R.dimen.action_button_content_margin);
-      return menu.getDrawable().getIntrinsicHeight() + margin * 2;
+      return menu.getDrawable().getIntrinsicHeight() + menuMargin * 2;
     }
     return 0;
   }
@@ -395,8 +396,7 @@ public class FloatingActionButton extends FrameLayout {
       menu = new ImageView(getContext());
       LayoutParams params =
           new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, Gravity.CENTER);
-      int margin = getResources().getDimensionPixelSize(R.dimen.action_button_content_margin);
-      params.setMargins(margin, margin, margin, margin);
+      params.setMargins(menuMargin, menuMargin, menuMargin, menuMargin);
       this.addView(menu, params);
     }
     menu.setImageDrawable(menuIco);
