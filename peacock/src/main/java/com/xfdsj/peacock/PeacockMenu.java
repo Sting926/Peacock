@@ -50,6 +50,8 @@ public class PeacockMenu extends FrameLayout {
   private List<Item> subMenuItems;
   /** Reference to the preferred {@link MenuAnimationHandler} object */
   private MenuAnimationHandler animationHandler;
+  /** Reference to a listener that listens open/close actions */
+  private MenuStateChangeListener stateChangeListener;
   /** whether the menu is currently open or not */
   private boolean open;
 
@@ -373,6 +375,18 @@ public class PeacockMenu extends FrameLayout {
 
   public WindowManager getWindowManager() {
     return (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+  }
+
+  public void setStateChangeListener(MenuStateChangeListener listener) {
+    this.stateChangeListener = listener;
+  }
+
+  /**
+   * A listener to listen open/closed state changes of the Menu
+   */
+  public static interface MenuStateChangeListener {
+    public void onMenuOpened(PeacockMenu menu);
+    public void onMenuClosed(PeacockMenu menu);
   }
 
   public static class Item {
