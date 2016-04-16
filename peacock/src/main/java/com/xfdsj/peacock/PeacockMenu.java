@@ -304,10 +304,9 @@ public class PeacockMenu extends FrameLayout {
     // do not forget to specify that the menu is open.
     open = true;
 
-/*    if(stateChangeListener != null) {
+    if (stateChangeListener != null) {
       stateChangeListener.onMenuOpened(this);
-    }*/
-
+    }
   }
 
   /**
@@ -332,9 +331,9 @@ public class PeacockMenu extends FrameLayout {
     // do not forget to specify that the menu is now closed.
     open = false;
 
-/*    if(stateChangeListener != null) {
+    if (stateChangeListener != null) {
       stateChangeListener.onMenuClosed(this);
-    }*/
+    }
   }
 
   public List<Item> getSubMenuItems() {
@@ -386,6 +385,7 @@ public class PeacockMenu extends FrameLayout {
    */
   public static interface MenuStateChangeListener {
     public void onMenuOpened(PeacockMenu menu);
+
     public void onMenuClosed(PeacockMenu menu);
   }
 
