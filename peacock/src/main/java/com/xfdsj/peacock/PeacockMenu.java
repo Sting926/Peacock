@@ -26,7 +26,7 @@ import java.util.List;
  * An alternative Floating Action Button implementation that can be independently placed in
  * one of 8 different places on the screen.
  */
-public class FloatingActionButton extends FrameLayout {
+public class PeacockMenu extends FrameLayout {
 
   public static final float DEFAULT_START_ANGLE = 180.0f;
 
@@ -53,11 +53,11 @@ public class FloatingActionButton extends FrameLayout {
   /** whether the menu is currently open or not */
   private boolean open;
 
-  public FloatingActionButton(Context context) {
+  public PeacockMenu(Context context) {
     super(context);
   }
 
-  public FloatingActionButton(Context context, AttributeSet attrs) {
+  public PeacockMenu(Context context, AttributeSet attrs) {
     super(context, attrs);
     if (attrs != null) {
       TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.Peacock, 0, 0);
@@ -82,8 +82,8 @@ public class FloatingActionButton extends FrameLayout {
 
   @Override public void onViewAdded(View child) {
     super.onViewAdded(child);
-    if (child instanceof FloatingActionButton) {
-      FloatingActionButton button = (FloatingActionButton) child;
+    if (child instanceof PeacockMenu) {
+      PeacockMenu button = (PeacockMenu) child;
       int width = button.getSelfWidth();
       int height = button.getSelfHeight();
       subMenuItems.add(new Item(child, width, height));

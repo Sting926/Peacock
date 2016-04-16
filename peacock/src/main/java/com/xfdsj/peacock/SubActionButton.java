@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 /**
- * A simple button implementation with a similar look an feel to{@link FloatingActionButton}.
+ * A simple button implementation with a similar look an feel to{@link PeacockMenu}.
  */
 public class SubActionButton extends FrameLayout {
 

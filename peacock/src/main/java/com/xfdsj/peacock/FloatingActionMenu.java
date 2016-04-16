@@ -95,7 +95,7 @@ public class FloatingActionMenu {
 
         // Do not forget to set the menu as self to our customizable animation handler
         if(animationHandler != null) {
-            animationHandler.setMenu((FloatingActionButton) mainActionView);
+            animationHandler.setMenu((PeacockMenu) mainActionView);
         }
 
         if(systemOverlay) {

@@ -10,7 +10,7 @@ import android.graphics.Point;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
-import com.xfdsj.peacock.FloatingActionButton;
+import com.xfdsj.peacock.PeacockMenu;
 
 /**
  * An example animation handler
@@ -120,10 +120,10 @@ public class DefaultAnimationHandler extends MenuAnimationHandler {
 
   protected class SubActionItemAnimationListener implements Animator.AnimatorListener {
 
-    private FloatingActionButton.Item subActionItem;
+    private PeacockMenu.Item subActionItem;
     private ActionType actionType;
 
-    public SubActionItemAnimationListener(FloatingActionButton.Item subActionItem,
+    public SubActionItemAnimationListener(PeacockMenu.Item subActionItem,
         ActionType actionType) {
       this.subActionItem = subActionItem;
       this.actionType = actionType;

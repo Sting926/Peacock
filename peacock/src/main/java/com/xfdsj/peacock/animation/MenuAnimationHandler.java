@@ -7,7 +7,7 @@ import android.animation.Animator;
 import android.graphics.Point;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import com.xfdsj.peacock.FloatingActionButton;
+import com.xfdsj.peacock.PeacockMenu;
 
 /**
  * An abstract class that is a prototype for the actual animation handlers
@@ -19,12 +19,12 @@ public abstract class MenuAnimationHandler {
     OPENING, CLOSING
   }
 
-  protected FloatingActionButton menu;
+  protected PeacockMenu menu;
 
   public MenuAnimationHandler() {
   }
 
-  public void setMenu(FloatingActionButton menu) {
+  public void setMenu(PeacockMenu menu) {
     this.menu = menu;
   }
 
@@ -54,7 +54,7 @@ public abstract class MenuAnimationHandler {
    * Restores the specified sub action view to its final state, according to the current actionType
    * Should be called after an animation finishes.
    */
-  protected void restoreSubActionViewAfterAnimation(FloatingActionButton.Item subActionItem,
+  protected void restoreSubActionViewAfterAnimation(PeacockMenu.Item subActionItem,
       ActionType actionType) {
     ViewGroup.LayoutParams params = subActionItem.view.getLayoutParams();
     subActionItem.view.setTranslationX(0);
