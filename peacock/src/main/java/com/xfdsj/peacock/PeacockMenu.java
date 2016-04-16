@@ -29,6 +29,12 @@ import java.util.List;
  */
 public class PeacockMenu extends FrameLayout {
 
+  public int x;
+  public int y;
+  public int width;
+  public int height;
+  public boolean active;
+
   public static final float DEFAULT_START_ANGLE = 180.0f;
 
   public static final float DEFAULT_END_ANGLE = 360.0f;
@@ -48,13 +54,15 @@ public class PeacockMenu extends FrameLayout {
   /** Distance of menu items from mainActionView */
   private int radius;
   /** List of menu items */
-  private List<Item> subMenuItems;
+  private List<PeacockMenu> subMenuItems;
   /** Reference to the preferred {@link MenuAnimationHandler} object */
   private MenuAnimationHandler animationHandler;
   /** Reference to a listener that listens open/close actions */
   private MenuStateChangeListener stateChangeListener;
   /** whether the menu is currently open or not */
   private boolean open;
+
+  private PeacockMenu peacockParent;
 
   public PeacockMenu(Context context) {
     super(context);
@@ -87,9 +95,10 @@ public class PeacockMenu extends FrameLayout {
     super.onViewAdded(child);
     if (child instanceof PeacockMenu) {
       PeacockMenu button = (PeacockMenu) child;
-      int width = button.getSelfWidth();
-      int height = button.getSelfHeight();
-      subMenuItems.add(new Item(child, width, height));
+      button.setPeacockParent(this);
+      button.width = button.getSelfWidth();
+      button.height = button.getSelfHeight();
+      subMenuItems.add(button);
       removeViewInLayout(child);
     }
   }
@@ -171,16 +180,6 @@ public class PeacockMenu extends FrameLayout {
     return center;
   }
 
-  public int getStatusBarHeight() {
-    int result = 0;
-    int resourceId =
-        getContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
-    if (resourceId > 0) {
-      result = getContext().getResources().getDimensionPixelSize(resourceId);
-    }
-    return result;
-  }
-
   /**
    * Retrieves the screen size from the Activity context
    *
@@ -226,12 +225,26 @@ public class PeacockMenu extends FrameLayout {
     return point;
   }
 
+  public PeacockMenu getPeacockParent() {
+    return peacockParent;
+  }
+
+  public void setPeacockParent(PeacockMenu peacockParent) {
+    this.peacockParent = peacockParent;
+  }
+
   /**
    * A simple click listener used by the main action view
    */
   public class ActionViewClickListener implements OnClickListener {
 
     @Override public void onClick(View v) {
+      if (open) {
+        for (PeacockMenu menu : subMenuItems) {
+          menu.active = false;
+        }
+      }
+      active = true;
       toggle(true);
     }
   }
@@ -243,6 +256,9 @@ public class PeacockMenu extends FrameLayout {
    * MenuAnimationHandler}
    */
   public void toggle(boolean animated) {
+    if (getPeacockParent() != null) {
+      getPeacockParent().close(true);
+    }
     if (open) {
       close(animated);
     } else {
@@ -256,7 +272,6 @@ public class PeacockMenu extends FrameLayout {
    * @param animated if true, this action is executed by the current {@link MenuAnimationHandler}
    */
   public void open(boolean animated) {
-
     // Get the center of the action view from the following function for efficiency
     // populate destination x,y coordinates of Items
     Point center = calculateItemPositions();
@@ -272,9 +287,10 @@ public class PeacockMenu extends FrameLayout {
         // It is required that these Item views are not currently added to any parent
         // Because they are supposed to be added to the Activity content view,
         // just before the animation starts
-        if (subMenuItems.get(i).view.getParent() != null) {
-          throw new RuntimeException(
-              "All of the sub action items have to be independent from a parent.");
+        if (subMenuItems.get(i).getParent() != null) {
+          continue;
+/*          throw new RuntimeException(
+              "All of the sub action items have to be independent from a parent.");*/
         }
 
         // Initially, place all items right at the center of the main action view
@@ -284,7 +300,7 @@ public class PeacockMenu extends FrameLayout {
                 Gravity.TOP | Gravity.LEFT);
         params.setMargins(center.x - subMenuItems.get(i).width / 2,
             center.y - subMenuItems.get(i).height / 2, 0, 0);
-        addViewToCurrentContainer(subMenuItems.get(i).view, params);
+        addViewToCurrentContainer(subMenuItems.get(i), params);
       }
       // Tell the current MenuAnimationHandler to animate from the center
       animationHandler.animateMenuOpening(center);
@@ -297,11 +313,11 @@ public class PeacockMenu extends FrameLayout {
             new LayoutParams(subMenuItems.get(i).width, subMenuItems.get(i).height,
                 Gravity.TOP | Gravity.LEFT);
         params.setMargins(subMenuItems.get(i).x, subMenuItems.get(i).y, 0, 0);
-        subMenuItems.get(i).view.setLayoutParams(params);
+        subMenuItems.get(i).setLayoutParams(params);
         // Because they are placed into the main content view of the Activity,
         // which is itself a FrameLayout
 
-        addViewToCurrentContainer(subMenuItems.get(i).view, params);
+        addViewToCurrentContainer(subMenuItems.get(i), params);
       }
     }
     // do not forget to specify that the menu is open.
@@ -328,7 +344,7 @@ public class PeacockMenu extends FrameLayout {
     } else {
       // If animations are disabled, just detach each of the Item views from the Activity content view.
       for (int i = 0; i < subMenuItems.size(); i++) {
-        removeViewFromCurrentContainer(subMenuItems.get(i).view);
+        removeViewFromCurrentContainer(subMenuItems.get(i));
       }
     }
     // do not forget to specify that the menu is now closed.
@@ -339,7 +355,7 @@ public class PeacockMenu extends FrameLayout {
     }
   }
 
-  public List<Item> getSubMenuItems() {
+  public List<PeacockMenu> getSubMenuItems() {
     return subMenuItems;
   }
 
@@ -392,7 +408,7 @@ public class PeacockMenu extends FrameLayout {
     public void onMenuClosed(PeacockMenu menu);
   }
 
-  public static class Item {
+/*  public static class Item {
     public int x;
     public int y;
     public int width;
@@ -410,5 +426,5 @@ public class PeacockMenu extends FrameLayout {
       x = 0;
       y = 0;
     }
-  }
+  }*/
 }

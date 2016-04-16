@@ -54,25 +54,25 @@ public abstract class MenuAnimationHandler {
    * Restores the specified sub action view to its final state, according to the current actionType
    * Should be called after an animation finishes.
    */
-  protected void restoreSubActionViewAfterAnimation(PeacockMenu.Item subActionItem,
+  protected void restoreSubActionViewAfterAnimation(PeacockMenu subActionItem,
       ActionType actionType) {
-    ViewGroup.LayoutParams params = subActionItem.view.getLayoutParams();
-    subActionItem.view.setTranslationX(0);
-    subActionItem.view.setTranslationY(0);
-    subActionItem.view.setRotation(0);
-    subActionItem.view.setScaleX(1);
-    subActionItem.view.setScaleY(1);
-    subActionItem.view.setAlpha(1);
+    ViewGroup.LayoutParams params = subActionItem.getLayoutParams();
+    subActionItem.setTranslationX(0);
+    subActionItem.setTranslationY(0);
+    subActionItem.setRotation(0);
+    subActionItem.setScaleX(1);
+    subActionItem.setScaleY(1);
+    subActionItem.setAlpha(1);
     if (actionType == ActionType.OPENING) {
       FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) params;
       lp.setMargins(subActionItem.x, subActionItem.y, 0, 0);
-      subActionItem.view.setLayoutParams(lp);
+      subActionItem.setLayoutParams(lp);
     } else if (actionType == ActionType.CLOSING) {
       Point center = menu.getActionViewCenter();
       FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) params;
       lp.setMargins(center.x - subActionItem.width / 2, center.y - subActionItem.height / 2, 0, 0);
-      subActionItem.view.setLayoutParams(lp);
-      menu.removeViewFromCurrentContainer(subActionItem.view);
+      subActionItem.setLayoutParams(lp);
+      menu.removeViewFromCurrentContainer(subActionItem);
     }
   }
 
