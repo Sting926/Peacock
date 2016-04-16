@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         app:startAngle="180.0"
         app:endAngle="360.0"
-        app:menuIco="@drawable/composer_icn_plus">
+        app:menuIco="@drawable/composer_button">
 
       <ImageView
           android:id="@+id/iv_1"

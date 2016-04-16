@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.DrawableContainer;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +84,7 @@ public class PeacockLayout extends ViewGroup {
       mMenu.setImageResource(R.drawable.peacock_background);
     }
 
-    if (mMenu.getDrawable() instanceof BitmapDrawable) {
+    if (mMenu.getDrawable() instanceof BitmapDrawable|| mMenu.getDrawable() instanceof DrawableContainer) {
       mMenuSize = mMenu.getDrawable().getIntrinsicWidth();
     } else {
       mMenuSize = getResources().getDimensionPixelSize(R.dimen.action_button_size);
