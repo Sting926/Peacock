@@ -1,24 +1,9 @@
-/*
- * Copyright (C) 2012 Capricorn
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.xfdsj.peacock;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -45,14 +30,14 @@ import android.widget.ImageView;
  * @author Capricorn
  */
 public class PeacockLayout extends ViewGroup {
-  /**
-   * children will be set the same size.
-   */
-  private int mSubMenuSize;
+
+  private ImageView mMenu;
 
   private Drawable mMenuIco;
 
-  private ImageView mMenu;
+  private int mMenuSize;
+
+  private int mSubMenuSize;
 
   private int mChildPadding = 5;
 
@@ -95,14 +80,20 @@ public class PeacockLayout extends ViewGroup {
     if (mMenuIco != null) {
       mMenu.setImageDrawable(mMenuIco);
     } else {
-      mMenu.setImageResource(R.drawable.peacock_menu);
+      mMenu.setImageResource(R.drawable.peacock_background);
+    }
+
+    if (mMenu.getDrawable() instanceof BitmapDrawable) {
+      mMenuSize = mMenu.getDrawable().getIntrinsicWidth();
+    } else {
+      mMenuSize = getResources().getDimensionPixelSize(R.dimen.action_button_size);
     }
 
     addView(mMenu);
 
-    mSubMenuSize = (int) (mMenuIco.getIntrinsicWidth() * 0.618);
+    mSubMenuSize = (int) (mMenuSize * 0.618);
 
-    mMinRadius = mMenuIco.getIntrinsicWidth() / 2 + mSubMenuSize;
+    mMinRadius = mMenuSize / 2 + mSubMenuSize;
 
     mMenu.setOnClickListener(new OnClickListener() {
       @Override public void onClick(View v) {
@@ -168,7 +159,7 @@ public class PeacockLayout extends ViewGroup {
       degrees += perDegrees;
       getChildAt(i).layout(frame.left, frame.top, frame.right, frame.bottom);
     }
-    Rect frame = computeChildFrame(centerX, centerY, 0, 0, mMenuIco.getIntrinsicWidth());
+    Rect frame = computeChildFrame(centerX, centerY, 0, 0, mMenuSize);
     mMenu.layout(frame.left, frame.top, frame.right, frame.bottom);
     mMenu.bringToFront();
   }

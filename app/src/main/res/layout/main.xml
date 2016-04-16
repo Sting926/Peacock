@@ -36,28 +36,28 @@
         android:layout_height="wrap_content"
         app:startAngle="180.0"
         app:endAngle="360.0"
-        app:menuIco="@drawable/peacock_menu">
+        app:menuIco="@drawable/composer_icn_plus">
 
       <ImageView
           android:id="@+id/iv_1"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:src="@drawable/peacock_submenu"/>
+          android:src="@drawable/composer_camera"/>
 
       <ImageView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:src="@drawable/peacock_submenu"/>
+          android:src="@drawable/composer_music"/>
 
       <ImageView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:src="@drawable/peacock_submenu"/>
+          android:src="@drawable/composer_place"/>
 
       <ImageView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:src="@drawable/peacock_submenu"/>
+          android:src="@drawable/composer_sleep"/>
 
 <!--      <ImageView
           android:layout_width="wrap_content"
