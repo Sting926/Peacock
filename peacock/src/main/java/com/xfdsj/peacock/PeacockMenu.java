@@ -29,8 +29,8 @@ import java.util.List;
  */
 public class PeacockMenu extends FrameLayout {
 
-  public int x;
-  public int y;
+  public int coordX;
+  public int coordY;
   public int width;
   public int height;
   public boolean active;
@@ -54,7 +54,7 @@ public class PeacockMenu extends FrameLayout {
   /** Distance of menu items from mainActionView */
   private int radius;
   /** List of menu items */
-  private List<PeacockMenu> subMenuItems;
+  private List<PeacockMenu> subMenus;
   /** Reference to the preferred {@link MenuAnimationHandler} object */
   private MenuAnimationHandler animationHandler;
   /** Reference to a listener that listens open/close actions */
@@ -88,7 +88,7 @@ public class PeacockMenu extends FrameLayout {
     setOnClickListener(new ActionViewClickListener());
     animationHandler = new DefaultAnimationHandler();
     animationHandler.setMenu(this);
-    subMenuItems = new ArrayList<>();
+    subMenus = new ArrayList<>();
   }
 
   @Override public void onViewAdded(View child) {
@@ -98,7 +98,7 @@ public class PeacockMenu extends FrameLayout {
       button.setPeacockParent(this);
       button.width = button.getSelfWidth();
       button.height = button.getSelfHeight();
-      subMenuItems.add(button);
+      subMenus.add(button);
       removeViewInLayout(child);
     }
   }
@@ -163,19 +163,19 @@ public class PeacockMenu extends FrameLayout {
 
     // Prevent overlapping when it is a full circle
     int divisor;
-    if (Math.abs(endAngle - startAngle) >= 360 || subMenuItems.size() <= 1) {
-      divisor = subMenuItems.size();
+    if (Math.abs(endAngle - startAngle) >= 360 || subMenus.size() <= 1) {
+      divisor = subMenus.size();
     } else {
-      divisor = subMenuItems.size() - 1;
+      divisor = subMenus.size() - 1;
     }
 
     // Measure this path, in order to find points that have the same distance between each other
-    for (int i = 0; i < subMenuItems.size(); i++) {
+    for (int i = 0; i < subMenus.size(); i++) {
       float[] coords = new float[] { 0f, 0f };
       measure.getPosTan((i) * measure.getLength() / divisor, coords, null);
-      // get the x and y values of these points and set them to each of sub action items.
-      subMenuItems.get(i).x = (int) coords[0] - subMenuItems.get(i).width / 2;
-      subMenuItems.get(i).y = (int) coords[1] - subMenuItems.get(i).height / 2;
+      // get the coordX and coordY values of these points and set them to each of sub action items.
+      subMenus.get(i).coordX = (int) coords[0] - subMenus.get(i).width / 2;
+      subMenus.get(i).coordY = (int) coords[1] - subMenus.get(i).height / 2;
     }
     return center;
   }
@@ -196,11 +196,11 @@ public class PeacockMenu extends FrameLayout {
    * This method should only be called after the main layout of the Activity is drawn,
    * such as when a user clicks the action button.
    *
-   * @return a Point containing x and y coordinates of the top left corner of action view
+   * @return a Point containing coordX and coordY coordinates of the top left corner of action view
    */
   private Point getActionViewCoordinates() {
     int[] coords = new int[2];
-    // This method returns a x and y values that can be larger than the dimensions of the device screen.
+    // This method returns a coordX and coordY values that can be larger than the dimensions of the device screen.
     getLocationOnScreen(coords);
 
     // So, we need to deduce the offsets.
@@ -240,7 +240,7 @@ public class PeacockMenu extends FrameLayout {
 
     @Override public void onClick(View v) {
       if (open) {
-        for (PeacockMenu menu : subMenuItems) {
+        for (PeacockMenu menu : subMenus) {
           menu.active = false;
         }
       }
@@ -273,7 +273,7 @@ public class PeacockMenu extends FrameLayout {
    */
   public void open(boolean animated) {
     // Get the center of the action view from the following function for efficiency
-    // populate destination x,y coordinates of Items
+    // populate destination coordX,coordY coordinates of Items
     Point center = calculateItemPositions();
 
     if (animated && animationHandler != null) {
@@ -283,11 +283,11 @@ public class PeacockMenu extends FrameLayout {
         return;
       }
 
-      for (int i = 0; i < subMenuItems.size(); i++) {
+      for (int i = 0; i < subMenus.size(); i++) {
         // It is required that these Item views are not currently added to any parent
         // Because they are supposed to be added to the Activity content view,
         // just before the animation starts
-        if (subMenuItems.get(i).getParent() != null) {
+        if (subMenus.get(i).getParent() != null) {
           continue;
 /*          throw new RuntimeException(
               "All of the sub action items have to be independent from a parent.");*/
@@ -295,29 +295,27 @@ public class PeacockMenu extends FrameLayout {
 
         // Initially, place all items right at the center of the main action view
         // Because they are supposed to start animating from that point.
-        final LayoutParams params =
-            new LayoutParams(subMenuItems.get(i).width, subMenuItems.get(i).height,
-                Gravity.TOP | Gravity.LEFT);
-        params.setMargins(center.x - subMenuItems.get(i).width / 2,
-            center.y - subMenuItems.get(i).height / 2, 0, 0);
-        addViewToCurrentContainer(subMenuItems.get(i), params);
+        final LayoutParams params = new LayoutParams(subMenus.get(i).width, subMenus.get(i).height,
+            Gravity.TOP | Gravity.LEFT);
+        params.setMargins(center.x - subMenus.get(i).width / 2,
+            center.y - subMenus.get(i).height / 2, 0, 0);
+        addViewToCurrentContainer(subMenus.get(i), params);
       }
       // Tell the current MenuAnimationHandler to animate from the center
       animationHandler.animateMenuOpening(center);
     } else {
       // If animations are disabled, just place each of the items to their calculated destination positions.
-      for (int i = 0; i < subMenuItems.size(); i++) {
+      for (int i = 0; i < subMenus.size(); i++) {
         // This is currently done by giving them large margins
 
-        final LayoutParams params =
-            new LayoutParams(subMenuItems.get(i).width, subMenuItems.get(i).height,
-                Gravity.TOP | Gravity.LEFT);
-        params.setMargins(subMenuItems.get(i).x, subMenuItems.get(i).y, 0, 0);
-        subMenuItems.get(i).setLayoutParams(params);
+        final LayoutParams params = new LayoutParams(subMenus.get(i).width, subMenus.get(i).height,
+            Gravity.TOP | Gravity.LEFT);
+        params.setMargins(subMenus.get(i).coordX, subMenus.get(i).coordY, 0, 0);
+        subMenus.get(i).setLayoutParams(params);
         // Because they are placed into the main content view of the Activity,
         // which is itself a FrameLayout
 
-        addViewToCurrentContainer(subMenuItems.get(i), params);
+        addViewToCurrentContainer(subMenus.get(i), params);
       }
     }
     // do not forget to specify that the menu is open.
@@ -334,6 +332,9 @@ public class PeacockMenu extends FrameLayout {
    * @param animated if true, this action is executed by the current {@link MenuAnimationHandler}
    */
   public void close(boolean animated) {
+/*    for (PeacockMenu subMenu : subMenus) {
+      subMenu.close(true);
+    }*/
     // If animations are enabled and we have a MenuAnimationHandler, let it do the heavy work
     if (animated && animationHandler != null) {
       if (animationHandler.isAnimating()) {
@@ -343,8 +344,8 @@ public class PeacockMenu extends FrameLayout {
       animationHandler.animateMenuClosing(getActionViewCenter());
     } else {
       // If animations are disabled, just detach each of the Item views from the Activity content view.
-      for (int i = 0; i < subMenuItems.size(); i++) {
-        removeViewFromCurrentContainer(subMenuItems.get(i));
+      for (int i = 0; i < subMenus.size(); i++) {
+        removeViewFromCurrentContainer(subMenus.get(i));
       }
     }
     // do not forget to specify that the menu is now closed.
@@ -355,8 +356,8 @@ public class PeacockMenu extends FrameLayout {
     }
   }
 
-  public List<PeacockMenu> getSubMenuItems() {
-    return subMenuItems;
+  public List<PeacockMenu> getSubMenus() {
+    return subMenus;
   }
 
   public Drawable getMenuIco() {
@@ -407,24 +408,4 @@ public class PeacockMenu extends FrameLayout {
 
     public void onMenuClosed(PeacockMenu menu);
   }
-
-/*  public static class Item {
-    public int x;
-    public int y;
-    public int width;
-    public int height;
-
-    public float alpha;
-
-    public View view;
-
-    public Item(View view, int width, int height) {
-      this.view = view;
-      this.width = width;
-      this.height = height;
-      alpha = view.getAlpha();
-      x = 0;
-      y = 0;
-    }
-  }*/
 }

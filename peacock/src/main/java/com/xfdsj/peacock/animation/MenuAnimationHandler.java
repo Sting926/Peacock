@@ -65,7 +65,7 @@ public abstract class MenuAnimationHandler {
     subActionItem.setAlpha(1);
     if (actionType == ActionType.OPENING) {
       FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) params;
-      lp.setMargins(subActionItem.x, subActionItem.y, 0, 0);
+      lp.setMargins(subActionItem.coordX, subActionItem.coordY, 0, 0);
       subActionItem.setLayoutParams(lp);
     } else if (actionType == ActionType.CLOSING) {
       Point center = menu.getActionViewCenter();
