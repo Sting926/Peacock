@@ -239,12 +239,10 @@ public class PeacockMenu extends FrameLayout {
   public class ActionViewClickListener implements OnClickListener {
 
     @Override public void onClick(View v) {
-      if (open) {
-        for (PeacockMenu menu : subMenus) {
-          menu.active = false;
-        }
-      }
       active = true;
+      if (open) {
+        closeAll(subMenus);
+      }
       toggle(true);
     }
   }
@@ -263,6 +261,16 @@ public class PeacockMenu extends FrameLayout {
       close(animated);
     } else {
       open(animated);
+    }
+  }
+
+  public void closeAll(List<PeacockMenu> subMenus) {
+    for (PeacockMenu subMenu : subMenus) {
+      if (subMenu.getSubMenus().size() > 0) {
+        closeAll(subMenu.getSubMenus());
+      }
+      subMenu.active = false;
+      subMenu.close(true);
     }
   }
 
@@ -332,9 +340,6 @@ public class PeacockMenu extends FrameLayout {
    * @param animated if true, this action is executed by the current {@link MenuAnimationHandler}
    */
   public void close(boolean animated) {
-/*    for (PeacockMenu subMenu : subMenus) {
-      subMenu.close(true);
-    }*/
     // If animations are enabled and we have a MenuAnimationHandler, let it do the heavy work
     if (animated && animationHandler != null) {
       if (animationHandler.isAnimating()) {
