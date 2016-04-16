@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.DrawableContainer;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -94,21 +95,23 @@ public class PeacockMenu extends FrameLayout {
   }
 
   public int getSelfWidth() {
-    if (getBackground() instanceof BitmapDrawable) {
-      return getBackground().getIntrinsicWidth();
-    } else if (menu != null && menu.getDrawable() instanceof BitmapDrawable) {
-      return menu.getDrawable().getIntrinsicWidth() + menuMargin * 2;
+    int width = 0;
+    if (menuIco != null) {
+      if (menuIco instanceof BitmapDrawable || menuIco instanceof DrawableContainer) {
+        width = menuIco.getIntrinsicWidth() + menuMargin * 2;
+      }
     }
-    return 0;
+    return Math.max(width, getBackground().getIntrinsicWidth());
   }
 
   public int getSelfHeight() {
-    if (getBackground() instanceof BitmapDrawable) {
-      return getBackground().getIntrinsicHeight();
-    } else if (menu != null && menu.getDrawable() instanceof BitmapDrawable) {
-      return menu.getDrawable().getIntrinsicHeight() + menuMargin * 2;
+    int height = 0;
+    if (menuIco != null) {
+      if (menuIco instanceof BitmapDrawable || menuIco instanceof DrawableContainer) {
+        height = menuIco.getIntrinsicHeight() + menuMargin * 2;
+      }
     }
-    return 0;
+    return Math.max(height, getBackground().getIntrinsicHeight());
   }
 
   private void addViewToCurrentContainer(View view, ViewGroup.LayoutParams layoutParams) {

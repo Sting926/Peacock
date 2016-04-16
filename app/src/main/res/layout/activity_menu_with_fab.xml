@@ -46,7 +46,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           app:menuIco="@drawable/ic_action_headphones"/>
-    </com.xfdsj.peacock.FloatingActionButton>
+    </com.xfdsj.peacock.PeacockMenu>
 
     <com.xfdsj.peacock.PeacockMenu
         android:layout_width="wrap_content"
