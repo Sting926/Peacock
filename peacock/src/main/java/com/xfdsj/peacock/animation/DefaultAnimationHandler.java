@@ -35,36 +35,36 @@ public class DefaultAnimationHandler extends MenuAnimationHandler {
     setAnimating(true);
 
     Animator lastAnimation = null;
-    for (int i = 0; i < menu.getSubActionItems().size(); i++) {
+    for (int i = 0; i < menu.getSubMenuItems().size(); i++) {
 
-      menu.getSubActionItems().get(i).view.setScaleX(0);
-      menu.getSubActionItems().get(i).view.setScaleY(0);
-      menu.getSubActionItems().get(i).view.setAlpha(0);
+      menu.getSubMenuItems().get(i).view.setScaleX(0);
+      menu.getSubMenuItems().get(i).view.setScaleY(0);
+      menu.getSubMenuItems().get(i).view.setAlpha(0);
 
       PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat(View.TRANSLATION_X,
-          menu.getSubActionItems().get(i).x - center.x + menu.getSubActionItems().get(i).width / 2);
+          menu.getSubMenuItems().get(i).x - center.x + menu.getSubMenuItems().get(i).width / 2);
       PropertyValuesHolder pvhY = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y,
-          menu.getSubActionItems().get(i).y - center.y
-              + menu.getSubActionItems().get(i).height / 2);
+          menu.getSubMenuItems().get(i).y - center.y
+              + menu.getSubMenuItems().get(i).height / 2);
       PropertyValuesHolder pvhR = PropertyValuesHolder.ofFloat(View.ROTATION, 720);
       PropertyValuesHolder pvhsX = PropertyValuesHolder.ofFloat(View.SCALE_X, 1);
       PropertyValuesHolder pvhsY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1);
       PropertyValuesHolder pvhA = PropertyValuesHolder.ofFloat(View.ALPHA, 1);
 
       final ObjectAnimator animation =
-          ObjectAnimator.ofPropertyValuesHolder(menu.getSubActionItems().get(i).view, pvhX, pvhY,
+          ObjectAnimator.ofPropertyValuesHolder(menu.getSubMenuItems().get(i).view, pvhX, pvhY,
               pvhR, pvhsX, pvhsY, pvhA);
       animation.setDuration(DURATION);
       animation.setInterpolator(new OvershootInterpolator(0.9f));
       animation.addListener(
-          new SubActionItemAnimationListener(menu.getSubActionItems().get(i), ActionType.OPENING));
+          new SubActionItemAnimationListener(menu.getSubMenuItems().get(i), ActionType.OPENING));
 
       if (i == 0) {
         lastAnimation = animation;
       }
 
       // Put a slight lag between each of the menu items to make it asymmetric
-      animation.setStartDelay((menu.getSubActionItems().size() - i) * LAG_BETWEEN_ITEMS);
+      animation.setStartDelay((menu.getSubMenuItems().size() - i) * LAG_BETWEEN_ITEMS);
       animation.start();
     }
     if (lastAnimation != null) {
@@ -78,31 +78,31 @@ public class DefaultAnimationHandler extends MenuAnimationHandler {
     setAnimating(true);
 
     Animator lastAnimation = null;
-    for (int i = 0; i < menu.getSubActionItems().size(); i++) {
+    for (int i = 0; i < menu.getSubMenuItems().size(); i++) {
       PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat(View.TRANSLATION_X,
-          -(menu.getSubActionItems().get(i).x - center.x
-              + menu.getSubActionItems().get(i).width / 2));
+          -(menu.getSubMenuItems().get(i).x - center.x
+              + menu.getSubMenuItems().get(i).width / 2));
       PropertyValuesHolder pvhY = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y,
-          -(menu.getSubActionItems().get(i).y - center.y
-              + menu.getSubActionItems().get(i).height / 2));
+          -(menu.getSubMenuItems().get(i).y - center.y
+              + menu.getSubMenuItems().get(i).height / 2));
       PropertyValuesHolder pvhR = PropertyValuesHolder.ofFloat(View.ROTATION, -720);
       PropertyValuesHolder pvhsX = PropertyValuesHolder.ofFloat(View.SCALE_X, 0);
       PropertyValuesHolder pvhsY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0);
       PropertyValuesHolder pvhA = PropertyValuesHolder.ofFloat(View.ALPHA, 0);
 
       final ObjectAnimator animation =
-          ObjectAnimator.ofPropertyValuesHolder(menu.getSubActionItems().get(i).view, pvhX, pvhY,
+          ObjectAnimator.ofPropertyValuesHolder(menu.getSubMenuItems().get(i).view, pvhX, pvhY,
               pvhR, pvhsX, pvhsY, pvhA);
       animation.setDuration(DURATION);
       animation.setInterpolator(new AccelerateDecelerateInterpolator());
       animation.addListener(
-          new SubActionItemAnimationListener(menu.getSubActionItems().get(i), ActionType.CLOSING));
+          new SubActionItemAnimationListener(menu.getSubMenuItems().get(i), ActionType.CLOSING));
 
       if (i == 0) {
         lastAnimation = animation;
       }
 
-      animation.setStartDelay((menu.getSubActionItems().size() - i) * LAG_BETWEEN_ITEMS);
+      animation.setStartDelay((menu.getSubMenuItems().size() - i) * LAG_BETWEEN_ITEMS);
       animation.start();
     }
     if (lastAnimation != null) {

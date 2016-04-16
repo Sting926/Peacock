@@ -5,13 +5,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
-import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -30,25 +28,11 @@ import java.util.List;
  */
 public class FloatingActionButton extends FrameLayout {
 
-  public static final int THEME_LIGHT = 0;
-  public static final int THEME_DARK = 1;
-
-  public static final int POSITION_TOP_CENTER = 1;
-  public static final int POSITION_TOP_RIGHT = 2;
-  public static final int POSITION_RIGHT_CENTER = 3;
-  public static final int POSITION_BOTTOM_RIGHT = 4;
-  public static final int POSITION_BOTTOM_CENTER = 5;
-  public static final int POSITION_BOTTOM_LEFT = 6;
-  public static final int POSITION_LEFT_CENTER = 7;
-  public static final int POSITION_TOP_LEFT = 8;
-
   public static final float DEFAULT_START_ANGLE = 180.0f;
 
   public static final float DEFAULT_END_ANGLE = 360.0f;
 
   public static final int DEFAULT_RADIUS = 250;
-
-  private View contentView;
 
   private Drawable menuIco;
 
@@ -63,7 +47,7 @@ public class FloatingActionButton extends FrameLayout {
   /** Distance of menu items from mainActionView */
   private int radius;
   /** List of menu items */
-  private List<Item> subActionItems;
+  private List<Item> subMenuItems;
   /** Reference to the preferred {@link MenuAnimationHandler} object */
   private MenuAnimationHandler animationHandler;
   /** whether the menu is currently open or not */
@@ -93,42 +77,7 @@ public class FloatingActionButton extends FrameLayout {
     setOnClickListener(new ActionViewClickListener());
     animationHandler = new DefaultAnimationHandler();
     animationHandler.setMenu(this);
-    subActionItems = new ArrayList<>();
-  }
-
-  /**
-   * Constructor that takes parameters collected using {@link FloatingActionMenu.Builder}
-   *
-   * @param context a reference to the current context
-   */
-  public FloatingActionButton(Context context, ViewGroup.LayoutParams layoutParams, int theme,
-      Drawable backgroundDrawable, int position, View contentView, LayoutParams contentParams,
-      boolean systemOverlay) {
-    super(context);
-
-    if (!systemOverlay && !(context instanceof Activity)) {
-      throw new RuntimeException("Given context must be an instance of Activity, "
-          + "since this FAB is not a systemOverlay.");
-    }
-
-    setPosition(position, layoutParams);
-
-    // If no custom backgroundDrawable is specified, use the background drawable of the theme.
-    if (backgroundDrawable == null) {
-      if (theme == THEME_LIGHT) {
-        backgroundDrawable = context.getResources().getDrawable(R.drawable.button_action_selector);
-      } else {
-        backgroundDrawable =
-            context.getResources().getDrawable(R.drawable.button_action_dark_selector);
-      }
-    }
-    setBackgroundResource(backgroundDrawable);
-    if (contentView != null) {
-      setContentView(contentView, contentParams);
-    }
-    setClickable(true);
-
-    attach(layoutParams);
+    subMenuItems = new ArrayList<>();
   }
 
   @Override public void onViewAdded(View child) {
@@ -137,7 +86,7 @@ public class FloatingActionButton extends FrameLayout {
       FloatingActionButton button = (FloatingActionButton) child;
       int width = button.getSelfWidth();
       int height = button.getSelfHeight();
-      subActionItems.add(new Item(child, width, height));
+      subMenuItems.add(new Item(child, width, height));
       removeViewInLayout(child);
     }
   }
@@ -200,19 +149,19 @@ public class FloatingActionButton extends FrameLayout {
 
     // Prevent overlapping when it is a full circle
     int divisor;
-    if (Math.abs(endAngle - startAngle) >= 360 || subActionItems.size() <= 1) {
-      divisor = subActionItems.size();
+    if (Math.abs(endAngle - startAngle) >= 360 || subMenuItems.size() <= 1) {
+      divisor = subMenuItems.size();
     } else {
-      divisor = subActionItems.size() - 1;
+      divisor = subMenuItems.size() - 1;
     }
 
     // Measure this path, in order to find points that have the same distance between each other
-    for (int i = 0; i < subActionItems.size(); i++) {
+    for (int i = 0; i < subMenuItems.size(); i++) {
       float[] coords = new float[] { 0f, 0f };
       measure.getPosTan((i) * measure.getLength() / divisor, coords, null);
       // get the x and y values of these points and set them to each of sub action items.
-      subActionItems.get(i).x = (int) coords[0] - subActionItems.get(i).width / 2;
-      subActionItems.get(i).y = (int) coords[1] - subActionItems.get(i).height / 2;
+      subMenuItems.get(i).x = (int) coords[0] - subMenuItems.get(i).width / 2;
+      subMenuItems.get(i).y = (int) coords[1] - subMenuItems.get(i).height / 2;
     }
     return center;
   }
@@ -314,11 +263,11 @@ public class FloatingActionButton extends FrameLayout {
         return;
       }
 
-      for (int i = 0; i < subActionItems.size(); i++) {
+      for (int i = 0; i < subMenuItems.size(); i++) {
         // It is required that these Item views are not currently added to any parent
         // Because they are supposed to be added to the Activity content view,
         // just before the animation starts
-        if (subActionItems.get(i).view.getParent() != null) {
+        if (subMenuItems.get(i).view.getParent() != null) {
           throw new RuntimeException(
               "All of the sub action items have to be independent from a parent.");
         }
@@ -326,28 +275,28 @@ public class FloatingActionButton extends FrameLayout {
         // Initially, place all items right at the center of the main action view
         // Because they are supposed to start animating from that point.
         final LayoutParams params =
-            new LayoutParams(subActionItems.get(i).width, subActionItems.get(i).height,
+            new LayoutParams(subMenuItems.get(i).width, subMenuItems.get(i).height,
                 Gravity.TOP | Gravity.LEFT);
-        params.setMargins(center.x - subActionItems.get(i).width / 2,
-            center.y - subActionItems.get(i).height / 2, 0, 0);
-        addViewToCurrentContainer(subActionItems.get(i).view, params);
+        params.setMargins(center.x - subMenuItems.get(i).width / 2,
+            center.y - subMenuItems.get(i).height / 2, 0, 0);
+        addViewToCurrentContainer(subMenuItems.get(i).view, params);
       }
       // Tell the current MenuAnimationHandler to animate from the center
       animationHandler.animateMenuOpening(center);
     } else {
       // If animations are disabled, just place each of the items to their calculated destination positions.
-      for (int i = 0; i < subActionItems.size(); i++) {
+      for (int i = 0; i < subMenuItems.size(); i++) {
         // This is currently done by giving them large margins
 
         final LayoutParams params =
-            new LayoutParams(subActionItems.get(i).width, subActionItems.get(i).height,
+            new LayoutParams(subMenuItems.get(i).width, subMenuItems.get(i).height,
                 Gravity.TOP | Gravity.LEFT);
-        params.setMargins(subActionItems.get(i).x, subActionItems.get(i).y, 0, 0);
-        subActionItems.get(i).view.setLayoutParams(params);
+        params.setMargins(subMenuItems.get(i).x, subMenuItems.get(i).y, 0, 0);
+        subMenuItems.get(i).view.setLayoutParams(params);
         // Because they are placed into the main content view of the Activity,
         // which is itself a FrameLayout
 
-        addViewToCurrentContainer(subActionItems.get(i).view, params);
+        addViewToCurrentContainer(subMenuItems.get(i).view, params);
       }
     }
     // do not forget to specify that the menu is open.
@@ -374,8 +323,8 @@ public class FloatingActionButton extends FrameLayout {
       animationHandler.animateMenuClosing(getActionViewCenter());
     } else {
       // If animations are disabled, just detach each of the Item views from the Activity content view.
-      for (int i = 0; i < subActionItems.size(); i++) {
-        removeViewFromCurrentContainer(subActionItems.get(i).view);
+      for (int i = 0; i < subMenuItems.size(); i++) {
+        removeViewFromCurrentContainer(subMenuItems.get(i).view);
       }
     }
     // do not forget to specify that the menu is now closed.
@@ -386,8 +335,8 @@ public class FloatingActionButton extends FrameLayout {
     }*/
   }
 
-  public List<Item> getSubActionItems() {
-    return subActionItems;
+  public List<Item> getSubMenuItems() {
+    return subMenuItems;
   }
 
   public Drawable getMenuIco() {
@@ -404,89 +353,6 @@ public class FloatingActionButton extends FrameLayout {
     }
     menu.setImageDrawable(menuIco);
     this.menuIco = menuIco;
-  }
-
-  /**
-   * Sets the position of the button by calculating its Gravity from the position parameter
-   *
-   * @param position one of 8 specified positions.
-   * @param layoutParams should be either FrameLayout.LayoutParams or WindowManager.LayoutParams
-   */
-  public void setPosition(int position, ViewGroup.LayoutParams layoutParams) {
-
-    boolean setDefaultMargin = false;
-
-    int gravity;
-    switch (position) {
-      case POSITION_TOP_CENTER:
-        gravity = Gravity.TOP | Gravity.CENTER_HORIZONTAL;
-        break;
-      case POSITION_TOP_RIGHT:
-        gravity = Gravity.TOP | Gravity.RIGHT;
-        break;
-      case POSITION_RIGHT_CENTER:
-        gravity = Gravity.RIGHT | Gravity.CENTER_VERTICAL;
-        break;
-      case POSITION_BOTTOM_CENTER:
-        gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
-        break;
-      case POSITION_BOTTOM_LEFT:
-        gravity = Gravity.BOTTOM | Gravity.LEFT;
-        break;
-      case POSITION_LEFT_CENTER:
-        gravity = Gravity.LEFT | Gravity.CENTER_VERTICAL;
-        break;
-      case POSITION_TOP_LEFT:
-        gravity = Gravity.TOP | Gravity.LEFT;
-        break;
-      case POSITION_BOTTOM_RIGHT:
-      default:
-        setDefaultMargin = true;
-        gravity = Gravity.BOTTOM | Gravity.RIGHT;
-        break;
-    }
-    try {
-      LayoutParams lp = (LayoutParams) layoutParams;
-      lp.gravity = gravity;
-      setLayoutParams(lp);
-    } catch (ClassCastException e) {
-      throw new ClassCastException("layoutParams must be an instance of "
-          + "FrameLayout.LayoutParams, since this FAB is not a systemOverlay");
-    }
-  }
-
-  /**
-   * Sets a content view that will be displayed inside this FloatingActionButton.
-   */
-  public void setContentView(View contentView, LayoutParams contentParams) {
-    this.contentView = contentView;
-    LayoutParams params;
-    if (contentParams == null) {
-      params =
-          new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, Gravity.CENTER);
-      final int margin = getResources().getDimensionPixelSize(R.dimen.action_button_content_margin);
-      params.setMargins(margin, margin, margin, margin);
-    } else {
-      params = contentParams;
-    }
-    params.gravity = Gravity.CENTER;
-
-    contentView.setClickable(false);
-    this.addView(contentView, params);
-  }
-
-  /**
-   * Attaches it to the content view with specified LayoutParams.
-   */
-  public void attach(ViewGroup.LayoutParams layoutParams) {
-    ((ViewGroup) getActivityContentView()).addView(this, layoutParams);
-  }
-
-  /**
-   * Detaches it from the container view.
-   */
-  public void detach() {
-    ((ViewGroup) getActivityContentView()).removeView(this);
   }
 
   /**
@@ -509,14 +375,6 @@ public class FloatingActionButton extends FrameLayout {
     return (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
   }
 
-  private void setBackgroundResource(Drawable drawable) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-      setBackground(drawable);
-    } else {
-      setBackgroundDrawable(drawable);
-    }
-  }
-
   public static class Item {
     public int x;
     public int y;
@@ -534,91 +392,6 @@ public class FloatingActionButton extends FrameLayout {
       alpha = view.getAlpha();
       x = 0;
       y = 0;
-    }
-  }
-
-  /**
-   * A builder for {@link FloatingActionButton} in conventional Java Builder format
-   */
-  public static class Builder {
-
-    private Context context;
-    private ViewGroup.LayoutParams layoutParams;
-    private int theme;
-    private Drawable backgroundDrawable;
-    private int position;
-    private View contentView;
-    private LayoutParams contentParams;
-    private boolean systemOverlay;
-
-    public Builder(Context context) {
-      this.context = context;
-
-      // Default FloatingActionButton settings
-      int size = context.getResources().getDimensionPixelSize(R.dimen.action_button_size);
-      int margin = context.getResources().getDimensionPixelSize(R.dimen.action_button_margin);
-      LayoutParams layoutParams = new LayoutParams(size, size, Gravity.BOTTOM | Gravity.RIGHT);
-      layoutParams.setMargins(margin, margin, margin, margin);
-      setLayoutParams(layoutParams);
-      setTheme(FloatingActionButton.THEME_LIGHT);
-      setPosition(FloatingActionButton.POSITION_BOTTOM_RIGHT);
-      setSystemOverlay(false);
-    }
-
-    public Builder setLayoutParams(ViewGroup.LayoutParams params) {
-      this.layoutParams = params;
-      return this;
-    }
-
-    public Builder setTheme(int theme) {
-      this.theme = theme;
-      return this;
-    }
-
-    public Builder setBackgroundDrawable(Drawable backgroundDrawable) {
-      this.backgroundDrawable = backgroundDrawable;
-      return this;
-    }
-
-    public Builder setBackgroundDrawable(int drawableId) {
-      return setBackgroundDrawable(context.getResources().getDrawable(drawableId));
-    }
-
-    public Builder setPosition(int position) {
-      this.position = position;
-      return this;
-    }
-
-    public Builder setContentView(View contentView) {
-      return setContentView(contentView, null);
-    }
-
-    public Builder setContentView(View contentView, LayoutParams contentParams) {
-      this.contentView = contentView;
-      this.contentParams = contentParams;
-      return this;
-    }
-
-    public Builder setSystemOverlay(boolean systemOverlay) {
-      this.systemOverlay = systemOverlay;
-      return this;
-    }
-
-    public FloatingActionButton build() {
-      return new FloatingActionButton(context, layoutParams, theme, backgroundDrawable, position,
-          contentView, contentParams, systemOverlay);
-    }
-
-    public static WindowManager.LayoutParams getDefaultSystemWindowParams(Context context) {
-      int size = context.getResources().getDimensionPixelSize(R.dimen.action_button_size);
-      WindowManager.LayoutParams params =
-          new WindowManager.LayoutParams(size, size, WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
-              // z-ordering
-              WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                  | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-      params.format = PixelFormat.RGBA_8888;
-      params.gravity = Gravity.TOP | Gravity.LEFT;
-      return params;
     }
   }
 }

@@ -45,7 +45,7 @@ public class SlideInAnimationHandler extends MenuAnimationHandler {
             params.setMargins(menu.getSubActionItems().get(i).x, menu.getSubActionItems().get(i).y + DIST_Y, 0, 0);
             menu.getSubActionItems().get(i).view.setLayoutParams(params);
 
-//            PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, menu.getSubActionItems().get(i).x/* - center.x + menu.getSubActionItems().get(i).width / 2*/);
+//            PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, menu.getSubMenuItems().get(i).x/* - center.x + menu.getSubMenuItems().get(i).width / 2*/);
             PropertyValuesHolder pvhY = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -DIST_Y);
 //            PropertyValuesHolder pvhsX = PropertyValuesHolder.ofFloat(View.SCALE_X, 1);
 //            PropertyValuesHolder pvhsY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1);
@@ -77,7 +77,7 @@ public class SlideInAnimationHandler extends MenuAnimationHandler {
 
         Animator lastAnimation = null;
         for (int i = 0; i < menu.getSubActionItems().size(); i++) {
-//            PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, - (menu.getSubActionItems().get(i).x - center.x + menu.getSubActionItems().get(i).width / 2));
+//            PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, - (menu.getSubMenuItems().get(i).x - center.x + menu.getSubMenuItems().get(i).width / 2));
             PropertyValuesHolder pvhY = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, DIST_Y);
 //            PropertyValuesHolder pvhsX = PropertyValuesHolder.ofFloat(View.SCALE_X, 0);
 //            PropertyValuesHolder pvhsY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0);
