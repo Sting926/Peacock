@@ -355,6 +355,12 @@ public class PeacockMenu extends FrameLayout {
     }
     // do not forget to specify that the menu is now closed.
     open = false;
+    for (PeacockMenu subMenu : subMenus) {
+      if (subMenu.active) {
+        open = true;
+        break;
+      }
+    }
 
     if (stateChangeListener != null) {
       stateChangeListener.onMenuClosed(this);
