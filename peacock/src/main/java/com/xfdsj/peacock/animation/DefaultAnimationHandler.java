@@ -1,9 +1,7 @@
-/*
- *   Copyright 2014 Oguz Bilgener
- */
 package com.xfdsj.peacock.animation;
 
 import android.animation.Animator;
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.graphics.Point;
@@ -11,6 +9,8 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import com.xfdsj.peacock.PeacockMenu;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An example animation handler
@@ -19,22 +19,20 @@ import com.xfdsj.peacock.PeacockMenu;
 public class DefaultAnimationHandler extends MenuAnimationHandler {
 
   /** duration of animations, in milliseconds */
-  protected static final int DURATION = 500;
+  protected static final int DURATION = 300;
   /** duration to wait between each of */
   protected static final int LAG_BETWEEN_ITEMS = 20;
-  /** holds the current state of animation */
-  private boolean animating;
 
-  public DefaultAnimationHandler() {
-    setAnimating(false);
+  /** holds the current state of animation */
+  //private boolean animating;
+  public DefaultAnimationHandler(PeacockMenu menu) {
+    super(menu);
   }
 
   @Override public void animateMenuOpening(Point center) {
     super.animateMenuOpening(center);
 
-    setAnimating(true);
-
-    Animator lastAnimation = null;
+    List<Animator> animators = new ArrayList<>();
     for (int i = 0; i < menu.getSubMenus().size(); i++) {
       if (menu.getSubMenus().get(i).active) {
         continue;
@@ -60,28 +58,22 @@ public class DefaultAnimationHandler extends MenuAnimationHandler {
       animation.setInterpolator(new OvershootInterpolator(0.9f));
       animation.addListener(
           new SubActionItemAnimationListener(menu.getSubMenus().get(i), ActionType.OPENING));
-
-      if (i == 0) {
-        lastAnimation = animation;
-      }
-
       // Put a slight lag between each of the menu items to make it asymmetric
       animation.setStartDelay((menu.getSubMenus().size() - i) * LAG_BETWEEN_ITEMS);
-      animation.start();
+      animators.add(animation);
     }
-    if (lastAnimation != null) {
-      lastAnimation.addListener(new LastAnimationListener());
-    } else {
-      setAnimating(false);
+    if (animators.size() > 0) {
+      AnimatorSet animatorSet = new AnimatorSet();
+      animatorSet.playTogether(animators);
+      animatorSet.addListener(new LastAnimationListener(ActionType.OPENING));
+      animatorSet.start();
     }
   }
 
   @Override public void animateMenuClosing(Point center) {
-    super.animateMenuOpening(center);
+    super.animateMenuClosing(center);
 
-    setAnimating(true);
-
-    Animator lastAnimation = null;
+    List<Animator> animators = new ArrayList<>();
     for (int i = 0; i < menu.getSubMenus().size(); i++) {
       if (menu.getSubMenus().get(i).active) {
         continue;
@@ -102,27 +94,15 @@ public class DefaultAnimationHandler extends MenuAnimationHandler {
       animation.setInterpolator(new AccelerateDecelerateInterpolator());
       animation.addListener(
           new SubActionItemAnimationListener(menu.getSubMenus().get(i), ActionType.CLOSING));
-
-      if (i == 0) {
-        lastAnimation = animation;
-      }
-
       animation.setStartDelay((menu.getSubMenus().size() - i) * LAG_BETWEEN_ITEMS);
-      animation.start();
+      animators.add(animation);
     }
-    if (lastAnimation != null) {
-      lastAnimation.addListener(new LastAnimationListener());
-    } else {
-      setAnimating(false);
+    if (animators.size() > 0) {
+      AnimatorSet animatorSet = new AnimatorSet();
+      animatorSet.playTogether(animators);
+      animatorSet.addListener(new LastAnimationListener(ActionType.CLOSING));
+      animatorSet.start();
     }
-  }
-
-  @Override public boolean isAnimating() {
-    return animating;
-  }
-
-  @Override protected void setAnimating(boolean animating) {
-    this.animating = animating;
   }
 
   protected class SubActionItemAnimationListener implements Animator.AnimatorListener {

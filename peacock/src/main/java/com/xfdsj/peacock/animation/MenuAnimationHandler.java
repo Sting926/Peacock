@@ -1,6 +1,3 @@
-/*
- *   Copyright 2014 Oguz Bilgener
- */
 package com.xfdsj.peacock.animation;
 
 import android.animation.Animator;
@@ -19,14 +16,11 @@ public abstract class MenuAnimationHandler {
     OPENING, CLOSING
   }
 
-  protected PeacockMenu menu;
+  protected final PeacockMenu menu;
 
   private AnimationEndListener animationEndListener;
 
-  public MenuAnimationHandler() {
-  }
-
-  public void setMenu(PeacockMenu menu) {
+  public MenuAnimationHandler(PeacockMenu menu) {
     this.menu = menu;
   }
 
@@ -83,13 +77,22 @@ public abstract class MenuAnimationHandler {
    * Changes the animating property of children.
    */
   public class LastAnimationListener implements Animator.AnimatorListener {
+    private ActionType actionType;
+
+    public LastAnimationListener(ActionType actionType) {
+      this.actionType = actionType;
+    }
 
     @Override public void onAnimationStart(Animator animation) {
-      setAnimating(true);
+      menu.setStatus(PeacockMenu.Status.PLAYING);
     }
 
     @Override public void onAnimationEnd(Animator animation) {
-      setAnimating(false);
+      if (actionType == ActionType.OPENING) {
+        menu.setStatus(PeacockMenu.Status.OPEN);
+      } else {
+        menu.setStatus(PeacockMenu.Status.CLOSE);
+      }
       if (animationEndListener != null) {
         animationEndListener.onAnimationEnd();
         animationEndListener = null;
@@ -97,17 +100,17 @@ public abstract class MenuAnimationHandler {
     }
 
     @Override public void onAnimationCancel(Animator animation) {
-      setAnimating(false);
+      if (actionType == ActionType.OPENING) {
+        menu.setStatus(PeacockMenu.Status.CLOSE);
+      } else {
+        menu.setStatus(PeacockMenu.Status.OPEN);
+      }
     }
 
     @Override public void onAnimationRepeat(Animator animation) {
-      setAnimating(true);
+      menu.setStatus(PeacockMenu.Status.PLAYING);
     }
   }
-
-  public abstract boolean isAnimating();
-
-  protected abstract void setAnimating(boolean animating);
 
   public void setAnimationEndListener(AnimationEndListener animationEndListener) {
     this.animationEndListener = animationEndListener;

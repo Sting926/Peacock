@@ -59,8 +59,27 @@ public class PeacockMenu extends FrameLayout {
   private MenuAnimationHandler animationHandler;
   /** Reference to a listener that listens open/close actions */
   private MenuStateChangeListener stateChangeListener;
+
+  public Status getStatus() {
+    return status;
+  }
+
+  public void setStatus(Status status) {
+    this.status = status;
+    if (status == Status.CLOSE) {
+      for (PeacockMenu subMenu : subMenus) {
+        if (subMenu.active) {
+          this.status = Status.OPEN;
+          break;
+        }
+      }
+    }
+  }
+
   /** whether the menu is currently open or not */
-  private boolean open;
+  //private boolean open;
+
+  private Status status = Status.CLOSE;
 
   private PeacockMenu peacockParent;
 
@@ -86,8 +105,7 @@ public class PeacockMenu extends FrameLayout {
     }
     setClickable(true);
     setOnClickListener(new ActionViewClickListener());
-    animationHandler = new DefaultAnimationHandler();
-    animationHandler.setMenu(this);
+    animationHandler = new DefaultAnimationHandler(this);
     subMenus = new ArrayList<>();
   }
 
@@ -242,8 +260,8 @@ public class PeacockMenu extends FrameLayout {
 
     @Override public void onClick(View v) {
       active = true;
-      if (open) {
-        closeAll(subMenus);
+      if (status == Status.OPEN) {
+        closeAll(PeacockMenu.this);
       }
       toggle(true);
     }
@@ -256,24 +274,29 @@ public class PeacockMenu extends FrameLayout {
    * MenuAnimationHandler}
    */
   public void toggle(boolean animated) {
+    switch (status) {
+      case OPEN:
+        close(animated);
+        break;
+      case CLOSE:
+        open(animated);
+        break;
+      case PLAYING:
+        return;
+    }
     if (getPeacockParent() != null) {
       getPeacockParent().close(true);
     }
-    if (open) {
-      close(animated);
-    } else {
-      open(animated);
-    }
   }
 
-  public void closeAll(List<PeacockMenu> subMenus) {
-    for (PeacockMenu subMenu : subMenus) {
+  public void closeAll(PeacockMenu menus) {
+    for (PeacockMenu subMenu : menus.getSubMenus()) {
       if (subMenu.getSubMenus().size() > 0) {
-        closeAll(subMenu.getSubMenus());
+        closeAll(subMenu);
       }
       subMenu.active = false;
-      subMenu.close(true);
     }
+    menus.close(true);
   }
 
   /**
@@ -282,59 +305,68 @@ public class PeacockMenu extends FrameLayout {
    * @param animated if true, this action is executed by the current {@link MenuAnimationHandler}
    */
   public void open(boolean animated) {
-    // Get the center of the action view from the following function for efficiency
-    // populate destination coordX,coordY coordinates of Items
-    Point center = calculateItemPositions();
+    if (subMenus.size() > 0) {
+      // Get the center of the action view from the following function for efficiency
+      // populate destination coordX,coordY coordinates of Items
+      Point center = calculateItemPositions();
 
-    if (animated && animationHandler != null) {
-      // If animations are enabled and we have a MenuAnimationHandler, let it do the heavy work
-      if (animationHandler.isAnimating()) {
-        // Do not proceed if there is an animation currently going on.
-        animationHandler.setAnimationEndListener(new MenuAnimationHandler.AnimationEndListener() {
+      if (animated && animationHandler != null) {
+        // If animations are enabled and we have a MenuAnimationHandler, let it do the heavy work
+        if (status == Status.PLAYING) {
+          // Do not proceed if there is an animation currently going on.
+/*        animationHandler.setAnimationEndListener(new MenuAnimationHandler.AnimationEndListener() {
           @Override public void onAnimationEnd() {
             open(true);
           }
-        });
-        return;
-      }
-
-      for (int i = 0; i < subMenus.size(); i++) {
-        // It is required that these Item views are not currently added to any parent
-        // Because they are supposed to be added to the Activity content view,
-        // just before the animation starts
-        if (subMenus.get(i).getParent() != null) {
-          continue;
-/*          throw new RuntimeException(
-              "All of the sub action items have to be independent from a parent.");*/
+        });*/
+          return;
         }
 
-        // Initially, place all items right at the center of the main action view
-        // Because they are supposed to start animating from that point.
-        final LayoutParams params = new LayoutParams(subMenus.get(i).width, subMenus.get(i).height,
-            Gravity.TOP | Gravity.LEFT);
-        params.setMargins(center.x - subMenus.get(i).width / 2,
-            center.y - subMenus.get(i).height / 2, 0, 0);
-        addViewToCurrentContainer(subMenus.get(i), params);
-      }
-      // Tell the current MenuAnimationHandler to animate from the center
-      animationHandler.animateMenuOpening(center);
-    } else {
-      // If animations are disabled, just place each of the items to their calculated destination positions.
-      for (int i = 0; i < subMenus.size(); i++) {
-        // This is currently done by giving them large margins
+        for (int i = 0; i < subMenus.size(); i++) {
+          // It is required that these Item views are not currently added to any parent
+          // Because they are supposed to be added to the Activity content view,
+          // just before the animation starts
+          if (subMenus.get(i).getParent() != null) {
+            continue;
+/*          throw new RuntimeException(
+              "All of the sub action items have to be independent from a parent.");*/
+          }
 
-        final LayoutParams params = new LayoutParams(subMenus.get(i).width, subMenus.get(i).height,
-            Gravity.TOP | Gravity.LEFT);
-        params.setMargins(subMenus.get(i).coordX, subMenus.get(i).coordY, 0, 0);
-        subMenus.get(i).setLayoutParams(params);
-        // Because they are placed into the main content view of the Activity,
-        // which is itself a FrameLayout
+          // Initially, place all items right at the center of the main action view
+          // Because they are supposed to start animating from that point.
+          final LayoutParams params =
+              new LayoutParams(subMenus.get(i).width, subMenus.get(i).height,
+                  Gravity.TOP | Gravity.LEFT);
+          params.setMargins(center.x - subMenus.get(i).width / 2,
+              center.y - subMenus.get(i).height / 2, 0, 0);
+          addViewToCurrentContainer(subMenus.get(i), params);
+        }
+        // Tell the current MenuAnimationHandler to animate from the center
+        animationHandler.animateMenuOpening(center);
+      } else {
+        // If animations are disabled, just place each of the items to their calculated destination positions.
+        for (int i = 0; i < subMenus.size(); i++) {
+          if (subMenus.get(i).getParent() != null) {
+            continue;
+/*          throw new RuntimeException(
+              "All of the sub action items have to be independent from a parent.");*/
+          }
+          // This is currently done by giving them large margins
 
-        addViewToCurrentContainer(subMenus.get(i), params);
+          final LayoutParams params =
+              new LayoutParams(subMenus.get(i).width, subMenus.get(i).height,
+                  Gravity.TOP | Gravity.LEFT);
+          params.setMargins(subMenus.get(i).coordX, subMenus.get(i).coordY, 0, 0);
+          subMenus.get(i).setLayoutParams(params);
+          // Because they are placed into the main content view of the Activity,
+          // which is itself a FrameLayout
+
+          addViewToCurrentContainer(subMenus.get(i), params);
+          // do not forget to specify that the menu is open.
+          setStatus(Status.OPEN);
+        }
       }
     }
-    // do not forget to specify that the menu is open.
-    open = true;
 
     if (stateChangeListener != null) {
       stateChangeListener.onMenuOpened(this);
@@ -347,30 +379,29 @@ public class PeacockMenu extends FrameLayout {
    * @param animated if true, this action is executed by the current {@link MenuAnimationHandler}
    */
   public void close(boolean animated) {
-    // If animations are enabled and we have a MenuAnimationHandler, let it do the heavy work
-    if (animated && animationHandler != null) {
-      if (animationHandler.isAnimating()) {
-        // Do not proceed if there is an animation currently going on.
-        animationHandler.setAnimationEndListener(new MenuAnimationHandler.AnimationEndListener() {
-          @Override public void onAnimationEnd() {
-            close(true);
+    if (subMenus.size() > 0) {
+      // If animations are enabled and we have a MenuAnimationHandler, let it do the heavy work
+      if (animated && animationHandler != null) {
+        if (status == Status.PLAYING) {
+          // Do not proceed if there is an animation currently going on.
+          animationHandler.setAnimationEndListener(new MenuAnimationHandler.AnimationEndListener() {
+            @Override public void onAnimationEnd() {
+              closeAll(PeacockMenu.this);
+            }
+          });
+          return;
+        }
+        animationHandler.animateMenuClosing(getActionViewCenter());
+      } else {
+        // If animations are disabled, just detach each of the Item views from the Activity content view.
+        for (int i = 0; i < subMenus.size(); i++) {
+          if (subMenus.get(i).active) {
+            continue;
           }
-        });
-        return;
-      }
-      animationHandler.animateMenuClosing(getActionViewCenter());
-    } else {
-      // If animations are disabled, just detach each of the Item views from the Activity content view.
-      for (int i = 0; i < subMenus.size(); i++) {
-        removeViewFromCurrentContainer(subMenus.get(i));
-      }
-    }
-    // do not forget to specify that the menu is now closed.
-    open = false;
-    for (PeacockMenu subMenu : subMenus) {
-      if (subMenu.active) {
-        open = true;
-        break;
+          removeViewFromCurrentContainer(subMenus.get(i));
+        }
+        // do not forget to specify that the menu is now closed.
+        setStatus(Status.CLOSE);
       }
     }
 
@@ -430,5 +461,11 @@ public class PeacockMenu extends FrameLayout {
     public void onMenuOpened(PeacockMenu menu);
 
     public void onMenuClosed(PeacockMenu menu);
+  }
+
+  public enum Status {
+    OPEN,
+    CLOSE,
+    PLAYING;
   }
 }
