@@ -57,11 +57,8 @@ public class PeacockMenu extends FrameLayout {
   private List<PeacockMenu> subMenus;
   /** Reference to the preferred {@link MenuAnimationHandler} object */
   private MenuAnimationHandler animationHandler;
-  /** Reference to a listener that listens open/close actions */
+  /** Reference to a listener that listens openMenu/closeMenu actions */
   private MenuStateChangeListener stateChangeListener;
-
-  /** whether the menu is currently open or not */
-  //private boolean open;
 
   private Status status = Status.CLOSE;
 
@@ -254,22 +251,22 @@ public class PeacockMenu extends FrameLayout {
   /**
    * Toggles the menu
    *
-   * @param animated if true, the open/close action is executed by the current {@link
+   * @param animated if true, the openMenu/closeMenu action is executed by the current {@link
    * MenuAnimationHandler}
    */
   public void toggle(boolean animated) {
     switch (status) {
       case OPEN:
-        close(animated);
+        closeMenu(animated);
         break;
       case CLOSE:
-        open(animated);
+        openMenu(animated);
         break;
       case PLAYING:
         return;
     }
     if (getPeacockParent() != null) {
-      getPeacockParent().close(true);
+      getPeacockParent().closeMenu(true);
     }
   }
 
@@ -280,7 +277,7 @@ public class PeacockMenu extends FrameLayout {
       }
       subMenu.active = false;
     }
-    menus.close(true);
+    menus.closeMenu(true);
   }
 
   /**
@@ -288,7 +285,7 @@ public class PeacockMenu extends FrameLayout {
    *
    * @param animated if true, this action is executed by the current {@link MenuAnimationHandler}
    */
-  public void open(boolean animated) {
+  public void openMenu(boolean animated) {
     if (subMenus.size() > 0) {
       // Get the center of the action view from the following function for efficiency
       // populate destination coordX,coordY coordinates of Items
@@ -357,7 +354,7 @@ public class PeacockMenu extends FrameLayout {
    *
    * @param animated if true, this action is executed by the current {@link MenuAnimationHandler}
    */
-  public void close(boolean animated) {
+  public void closeMenu(boolean animated) {
     if (subMenus.size() > 0) {
       // If animations are enabled and we have a MenuAnimationHandler, let it do the heavy work
       if (animated && animationHandler != null) {
