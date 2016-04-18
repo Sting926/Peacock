@@ -27,7 +27,7 @@
       app:startAngle="180"
       app:endAngle="360"
       app:menuIco="@drawable/ic_action_important"
-      app:radius="@dimen/action_menu_radius">
+      app:radius="@dimen/peacock_menu_radius">
 
     <com.xfdsj.peacock.PeacockMenu
         android:layout_width="wrap_content"

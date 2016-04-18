@@ -87,7 +87,7 @@ public class PeacockLayout extends ViewGroup {
     if (mMenu.getDrawable() instanceof BitmapDrawable|| mMenu.getDrawable() instanceof DrawableContainer) {
       mMenuSize = mMenu.getDrawable().getIntrinsicWidth();
     } else {
-      mMenuSize = getResources().getDimensionPixelSize(R.dimen.action_button_size);
+      mMenuSize = getResources().getDimensionPixelSize(R.dimen.peacock_menu_size);
     }
 
     addView(mMenu);

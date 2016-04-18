@@ -46,7 +46,7 @@ public class PeacockMenu extends FrameLayout {
   private ImageView menu;
 
   private int menuMargin =
-      getResources().getDimensionPixelSize(R.dimen.action_button_content_margin);
+      getResources().getDimensionPixelSize(R.dimen.peacock_menu_content_margin);
   /** The angle (in degrees, modulus 360) which the circular menu starts from */
   private float startAngle;
   /** The angle (in degrees, modulus 360) which the circular menu ends at */
