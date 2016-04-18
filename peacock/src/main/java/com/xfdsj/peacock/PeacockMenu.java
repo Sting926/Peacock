@@ -79,7 +79,7 @@ public class PeacockMenu extends FrameLayout {
       a.recycle();
     }
     if (getBackground() == null) {
-      setBackgroundResource(R.drawable.peacock_bg2);
+      setBackgroundResource(R.drawable.peacock_bg);
     }
     if (menuIco != null) {
       setMenuIco(menuIco);
