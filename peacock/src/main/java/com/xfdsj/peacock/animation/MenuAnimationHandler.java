@@ -76,10 +76,10 @@ public abstract class MenuAnimationHandler {
    * A special animation listener that is intended to listen the last of the sequential animations.
    * Changes the animating property of children.
    */
-  public class LastAnimationListener implements Animator.AnimatorListener {
+  public class AnimationsListener implements Animator.AnimatorListener {
     private ActionType actionType;
 
-    public LastAnimationListener(ActionType actionType) {
+    public AnimationsListener(ActionType actionType) {
       this.actionType = actionType;
     }
 

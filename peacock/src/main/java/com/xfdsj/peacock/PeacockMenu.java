@@ -304,10 +304,7 @@ public class PeacockMenu extends FrameLayout {
           // just before the animation starts
           if (subMenus.get(i).getParent() != null) {
             continue;
-/*          throw new RuntimeException(
-              "All of the sub action items have to be independent from a parent.");*/
           }
-
           // Initially, place all items right at the center of the main action view
           // Because they are supposed to start animating from that point.
           final LayoutParams params =
@@ -324,11 +321,8 @@ public class PeacockMenu extends FrameLayout {
         for (int i = 0; i < subMenus.size(); i++) {
           if (subMenus.get(i).getParent() != null) {
             continue;
-/*          throw new RuntimeException(
-              "All of the sub action items have to be independent from a parent.");*/
           }
           // This is currently done by giving them large margins
-
           final LayoutParams params =
               new LayoutParams(subMenus.get(i).width, subMenus.get(i).height,
                   Gravity.TOP | Gravity.LEFT);
@@ -336,7 +330,6 @@ public class PeacockMenu extends FrameLayout {
           subMenus.get(i).setLayoutParams(params);
           // Because they are placed into the main content view of the Activity,
           // which is itself a FrameLayout
-
           addViewToCurrentContainer(subMenus.get(i), params);
           // do not forget to specify that the menu is open.
           setStatus(Status.OPEN);

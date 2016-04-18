@@ -57,7 +57,7 @@ public class DefaultAnimationHandler extends MenuAnimationHandler {
       animation.setDuration(DURATION);
       animation.setInterpolator(new OvershootInterpolator(0.9f));
       animation.addListener(
-          new SubActionItemAnimationListener(menu.getSubMenus().get(i), ActionType.OPENING));
+          new SubMenuItemAnimationListener(menu.getSubMenus().get(i), ActionType.OPENING));
       // Put a slight lag between each of the menu items to make it asymmetric
       animation.setStartDelay((menu.getSubMenus().size() - i) * LAG_BETWEEN_ITEMS);
       animators.add(animation);
@@ -65,7 +65,7 @@ public class DefaultAnimationHandler extends MenuAnimationHandler {
     if (animators.size() > 0) {
       AnimatorSet animatorSet = new AnimatorSet();
       animatorSet.playTogether(animators);
-      animatorSet.addListener(new LastAnimationListener(ActionType.OPENING));
+      animatorSet.addListener(new AnimationsListener(ActionType.OPENING));
       animatorSet.start();
     }
   }
@@ -93,24 +93,24 @@ public class DefaultAnimationHandler extends MenuAnimationHandler {
       animation.setDuration(DURATION);
       animation.setInterpolator(new AccelerateDecelerateInterpolator());
       animation.addListener(
-          new SubActionItemAnimationListener(menu.getSubMenus().get(i), ActionType.CLOSING));
+          new SubMenuItemAnimationListener(menu.getSubMenus().get(i), ActionType.CLOSING));
       animation.setStartDelay((menu.getSubMenus().size() - i) * LAG_BETWEEN_ITEMS);
       animators.add(animation);
     }
     if (animators.size() > 0) {
       AnimatorSet animatorSet = new AnimatorSet();
       animatorSet.playTogether(animators);
-      animatorSet.addListener(new LastAnimationListener(ActionType.CLOSING));
+      animatorSet.addListener(new AnimationsListener(ActionType.CLOSING));
       animatorSet.start();
     }
   }
 
-  protected class SubActionItemAnimationListener implements Animator.AnimatorListener {
+  protected class SubMenuItemAnimationListener implements Animator.AnimatorListener {
 
     private PeacockMenu subActionItem;
     private ActionType actionType;
 
-    public SubActionItemAnimationListener(PeacockMenu subActionItem, ActionType actionType) {
+    public SubMenuItemAnimationListener(PeacockMenu subActionItem, ActionType actionType) {
       this.subActionItem = subActionItem;
       this.actionType = actionType;
     }
