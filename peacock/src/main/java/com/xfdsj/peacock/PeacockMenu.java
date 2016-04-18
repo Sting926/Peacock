@@ -79,7 +79,7 @@ public class PeacockMenu extends FrameLayout {
       a.recycle();
     }
     if (getBackground() == null) {
-      setBackgroundResource(R.drawable.peacock_background);
+      setBackgroundResource(R.drawable.peacock_bg);
     }
     if (menuIco != null) {
       setMenuIco(menuIco);
@@ -110,7 +110,8 @@ public class PeacockMenu extends FrameLayout {
         width = menuIco.getIntrinsicWidth() + menuMargin * 2;
       }
     }
-    return Math.max(width, getBackground().getIntrinsicWidth());
+    //return Math.max(width, getBackground().getIntrinsicWidth());
+    return width;
   }
 
   public int getSelfHeight() {
@@ -120,7 +121,8 @@ public class PeacockMenu extends FrameLayout {
         height = menuIco.getIntrinsicHeight() + menuMargin * 2;
       }
     }
-    return Math.max(height, getBackground().getIntrinsicHeight());
+    //return Math.max(height, getBackground().getIntrinsicHeight());
+    return height;
   }
 
   private void addViewToCurrentContainer(View view, ViewGroup.LayoutParams layoutParams) {

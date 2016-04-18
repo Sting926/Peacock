@@ -81,7 +81,7 @@ public class PeacockLayout extends ViewGroup {
     if (mMenuIco != null) {
       mMenu.setImageDrawable(mMenuIco);
     } else {
-      mMenu.setImageResource(R.drawable.peacock_background);
+      mMenu.setImageResource(R.drawable.peacock_bg);
     }
 
     if (mMenu.getDrawable() instanceof BitmapDrawable|| mMenu.getDrawable() instanceof DrawableContainer) {

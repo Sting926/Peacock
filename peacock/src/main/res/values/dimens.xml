@@ -1,6 +1,6 @@
 <resources>
     <dimen name="action_button_size">50dp</dimen>
-    <dimen name="action_button_content_margin">10dp</dimen>
+    <dimen name="action_button_content_margin">5dp</dimen>
     <dimen name="action_button_margin">12dp</dimen>
     <dimen name="action_menu_radius">100dp</dimen>
 </resources>

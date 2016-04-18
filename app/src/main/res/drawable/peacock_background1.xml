@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+  <item>
+    <shape
+        android:shape="ring" android:thickness="@dimen/action_button_content_margin">
+      <gradient android:angle="270" android:endColor="#99BD4C"
+          android:startColor="#FFFFFF"/>
+    </shape>
+  </item>
+</selector>
