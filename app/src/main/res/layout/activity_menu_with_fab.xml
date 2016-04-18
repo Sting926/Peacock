@@ -25,28 +25,7 @@
         android:layout_height="wrap_content"
         app:startAngle="0"
         app:endAngle="0"
-        app:menuIco="@drawable/ic_action_camera">
-
-      <com.xfdsj.peacock.PeacockMenu
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          app:menuIco="@drawable/ic_action_picture"/>
-
-      <com.xfdsj.peacock.PeacockMenu
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          app:menuIco="@drawable/ic_action_video"/>
-
-      <com.xfdsj.peacock.PeacockMenu
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          app:menuIco="@drawable/ic_action_location_found"/>
-
-      <com.xfdsj.peacock.PeacockMenu
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          app:menuIco="@drawable/ic_action_headphones"/>
-    </com.xfdsj.peacock.PeacockMenu>
+        app:menuIco="@drawable/ic_action_camera"/>
 
     <com.xfdsj.peacock.PeacockMenu
         android:layout_width="wrap_content"
@@ -56,7 +35,41 @@
     <com.xfdsj.peacock.PeacockMenu
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:menuIco="@drawable/ic_action_video"/>
+        app:startAngle="200"
+        app:endAngle="340"
+        app:menuIco="@drawable/ic_action_video">
+      <com.xfdsj.peacock.PeacockMenu
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          app:menuIco="@drawable/composer_button"/>
+
+      <com.xfdsj.peacock.PeacockMenu
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          app:startAngle="270"
+          app:endAngle="360"
+          app:menuIco="@drawable/composer_button">
+        <com.xfdsj.peacock.PeacockMenu
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:menuIco="@drawable/composer_camera"/>
+
+        <com.xfdsj.peacock.PeacockMenu
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:menuIco="@drawable/composer_camera"/>
+      </com.xfdsj.peacock.PeacockMenu>
+
+      <com.xfdsj.peacock.PeacockMenu
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          app:menuIco="@drawable/composer_button"/>
+
+      <com.xfdsj.peacock.PeacockMenu
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          app:menuIco="@drawable/composer_button"/>
+    </com.xfdsj.peacock.PeacockMenu>
 
     <com.xfdsj.peacock.PeacockMenu
         android:layout_width="wrap_content"
