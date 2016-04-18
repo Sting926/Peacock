@@ -290,6 +290,11 @@ public class PeacockMenu extends FrameLayout {
       // If animations are enabled and we have a MenuAnimationHandler, let it do the heavy work
       if (animationHandler.isAnimating()) {
         // Do not proceed if there is an animation currently going on.
+        animationHandler.setAnimationEndListener(new MenuAnimationHandler.AnimationEndListener() {
+          @Override public void onAnimationEnd() {
+            open(true);
+          }
+        });
         return;
       }
 
@@ -346,6 +351,11 @@ public class PeacockMenu extends FrameLayout {
     if (animated && animationHandler != null) {
       if (animationHandler.isAnimating()) {
         // Do not proceed if there is an animation currently going on.
+        animationHandler.setAnimationEndListener(new MenuAnimationHandler.AnimationEndListener() {
+          @Override public void onAnimationEnd() {
+            close(true);
+          }
+        });
         return;
       }
       animationHandler.animateMenuClosing(getActionViewCenter());

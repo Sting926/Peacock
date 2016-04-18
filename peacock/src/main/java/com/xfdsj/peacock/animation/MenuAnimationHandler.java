@@ -21,6 +21,8 @@ public abstract class MenuAnimationHandler {
 
   protected PeacockMenu menu;
 
+  private AnimationEndListener animationEndListener;
+
   public MenuAnimationHandler() {
   }
 
@@ -88,6 +90,10 @@ public abstract class MenuAnimationHandler {
 
     @Override public void onAnimationEnd(Animator animation) {
       setAnimating(false);
+      if (animationEndListener != null) {
+        animationEndListener.onAnimationEnd();
+        animationEndListener = null;
+      }
     }
 
     @Override public void onAnimationCancel(Animator animation) {
@@ -102,4 +108,12 @@ public abstract class MenuAnimationHandler {
   public abstract boolean isAnimating();
 
   protected abstract void setAnimating(boolean animating);
+
+  public void setAnimationEndListener(AnimationEndListener animationEndListener) {
+    this.animationEndListener = animationEndListener;
+  }
+
+  public interface AnimationEndListener {
+    void onAnimationEnd();
+  }
 }
