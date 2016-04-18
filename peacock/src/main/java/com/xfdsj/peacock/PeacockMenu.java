@@ -60,22 +60,6 @@ public class PeacockMenu extends FrameLayout {
   /** Reference to a listener that listens open/close actions */
   private MenuStateChangeListener stateChangeListener;
 
-  public Status getStatus() {
-    return status;
-  }
-
-  public void setStatus(Status status) {
-    this.status = status;
-    if (status == Status.CLOSE) {
-      for (PeacockMenu subMenu : subMenus) {
-        if (subMenu.active) {
-          this.status = Status.OPEN;
-          break;
-        }
-      }
-    }
-  }
-
   /** whether the menu is currently open or not */
   //private boolean open;
 
@@ -314,11 +298,6 @@ public class PeacockMenu extends FrameLayout {
         // If animations are enabled and we have a MenuAnimationHandler, let it do the heavy work
         if (status == Status.PLAYING) {
           // Do not proceed if there is an animation currently going on.
-/*        animationHandler.setAnimationEndListener(new MenuAnimationHandler.AnimationEndListener() {
-          @Override public void onAnimationEnd() {
-            open(true);
-          }
-        });*/
           return;
         }
 
@@ -383,7 +362,6 @@ public class PeacockMenu extends FrameLayout {
       // If animations are enabled and we have a MenuAnimationHandler, let it do the heavy work
       if (animated && animationHandler != null) {
         if (status == Status.PLAYING) {
-          // Do not proceed if there is an animation currently going on.
           animationHandler.setAnimationEndListener(new MenuAnimationHandler.AnimationEndListener() {
             @Override public void onAnimationEnd() {
               closeAll(PeacockMenu.this);
@@ -428,6 +406,18 @@ public class PeacockMenu extends FrameLayout {
     }
     menu.setImageDrawable(menuIco);
     this.menuIco = menuIco;
+  }
+
+  public void setStatus(Status status) {
+    this.status = status;
+    if (status == Status.CLOSE) {
+      for (PeacockMenu subMenu : subMenus) {
+        if (subMenu.active) {
+          this.status = Status.OPEN;
+          break;
+        }
+      }
+    }
   }
 
   /**
