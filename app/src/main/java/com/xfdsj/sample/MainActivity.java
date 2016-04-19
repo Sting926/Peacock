@@ -60,6 +60,7 @@ public class MainActivity extends Activity {
     peacockMenu.setStateChangeListener(new PeacockMenu.MenuStateChangeListener() {
       @Override public void onMenuOpened(PeacockMenu menu) {
         //menu.getPeacockParent().closeOther(menu);
+        menu.setStatus(PeacockMenu.Status.OPEN);
       }
 
       @Override public void onMenuClosed(PeacockMenu menu) {
