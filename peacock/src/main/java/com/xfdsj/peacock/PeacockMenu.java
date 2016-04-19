@@ -33,7 +33,6 @@ public class PeacockMenu extends FrameLayout {
   public int coordY;
   public int width;
   public int height;
-  public boolean active;
 
   public static final float DEFAULT_START_ANGLE = 180.0f;
 
@@ -248,10 +247,9 @@ public class PeacockMenu extends FrameLayout {
   public class ActionViewClickListener implements OnClickListener {
 
     @Override public void onClick(View v) {
-      if (status == Status.PLAYING){
+      if (status == Status.PLAYING) {
         return;
       }
-      active = true;
       toggle();
     }
   }
@@ -263,16 +261,11 @@ public class PeacockMenu extends FrameLayout {
   public void toggle() {
     switch (status) {
       case OPEN:
-        closeAll(this);
+        closeMenu();
         break;
       case CLOSE:
         openMenu();
         break;
-      case PLAYING:
-        return;
-    }
-    if (getPeacockParent() != null) {
-      getPeacockParent().closeMenu();
     }
   }
 
@@ -289,7 +282,6 @@ public class PeacockMenu extends FrameLayout {
                   }
                 });
               }
-              subMenu.active = false;
             }
           }
         });
@@ -300,8 +292,6 @@ public class PeacockMenu extends FrameLayout {
       if (subMenu.getSubMenus().size() > 0) {
         closeAll(subMenu);
       }
-      subMenu.active = false;
-      subMenu.setStatus(Status.PLAYING);
     }
     menu.closeMenu();
   }
@@ -319,7 +309,6 @@ public class PeacockMenu extends FrameLayout {
                   }
                 });
               }
-              subMenu.active = false;
             }
           }
         });
@@ -358,8 +347,13 @@ public class PeacockMenu extends FrameLayout {
           addViewToCurrentContainer(subMenus.get(i), params);
         }
         // Tell the current MenuAnimationHandler to animate from the center
-        animationHandler.animateMenuOpening(center);
+        animationHandler.menuOpening(center);
       }
+      if (getPeacockParent() != null) {
+        getPeacockParent().closeOther(this);
+      }
+    } else {
+      setStatus(Status.OPEN);
     }
 
     if (stateChangeListener != null) {
@@ -383,12 +377,26 @@ public class PeacockMenu extends FrameLayout {
           });*/
           return;
         }
-        animationHandler.animateMenuClosing(getActionViewCenter());
+        animationHandler.menuClosing(getActionViewCenter());
       }
+    } else {
+      setStatus(Status.CLOSE);
     }
 
     if (stateChangeListener != null) {
       stateChangeListener.onMenuClosed(this);
+    }
+  }
+
+  public void closeOther(PeacockMenu menu) {
+    if (subMenus.size() > 0) {
+      // MenuAnimationHandler do the heavy work
+      if (animationHandler != null) {
+        if (status == Status.PLAYING) {
+          return;
+        }
+        animationHandler.otherMenuClosing(getActionViewCenter(), menu);
+      }
     }
   }
 
@@ -414,14 +422,6 @@ public class PeacockMenu extends FrameLayout {
 
   public void setStatus(Status status) {
     this.status = status;
-    if (status == Status.CLOSE) {
-      for (PeacockMenu subMenu : subMenus) {
-        if (subMenu.active) {
-          this.status = Status.OPEN;
-          break;
-        }
-      }
-    }
   }
 
   /**

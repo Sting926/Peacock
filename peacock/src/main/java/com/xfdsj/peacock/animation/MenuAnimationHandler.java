@@ -28,10 +28,10 @@ public abstract class MenuAnimationHandler {
    * Starts the opening animation
    * Should be overriden by children
    */
-  public void animateMenuOpening(Point center) {
+  public void menuOpening(Point center) {
     if (menu == null) {
       throw new NullPointerException(
-          "MenuAnimationHandler cannot animate without a valid FloatingActionMenu.");
+          "MenuAnimationHandler cannot animate without a valid FloatingMenu.");
     }
   }
 
@@ -39,10 +39,21 @@ public abstract class MenuAnimationHandler {
    * Ends the opening animation
    * Should be overriden by children
    */
-  public void animateMenuClosing(Point center) {
+  public void menuClosing(Point center) {
     if (menu == null) {
       throw new NullPointerException(
-          "MenuAnimationHandler cannot animate without a valid FloatingActionMenu.");
+          "MenuAnimationHandler cannot animate without a valid FloatingMenu.");
+    }
+  }
+
+  /**
+   * Ends the opening animation
+   * Should be overriden by children
+   */
+  public void otherMenuClosing(Point center, PeacockMenu menu) {
+    if (menu == null) {
+      throw new NullPointerException(
+          "MenuAnimationHandler cannot animate without a valid FloatingMenu.");
     }
   }
 

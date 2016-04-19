@@ -29,37 +29,31 @@ public class DefaultAnimationHandler extends MenuAnimationHandler {
     super(menu);
   }
 
-  @Override public void animateMenuOpening(Point center) {
-    super.animateMenuOpening(center);
+  @Override public void menuOpening(Point center) {
+    super.menuOpening(center);
 
     List<Animator> animators = new ArrayList<>();
-    for (int i = 0; i < menu.getSubMenus().size(); i++) {
-      if (menu.getSubMenus().get(i).active) {
-        continue;
-      }
+    for (PeacockMenu m : menu.getSubMenus()) {
+      m.setScaleX(0);
+      m.setScaleY(0);
+      m.setAlpha(0);
 
-      menu.getSubMenus().get(i).setScaleX(0);
-      menu.getSubMenus().get(i).setScaleY(0);
-      menu.getSubMenus().get(i).setAlpha(0);
-
-      PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat(View.TRANSLATION_X,
-          menu.getSubMenus().get(i).coordX - center.x + menu.getSubMenus().get(i).width / 2);
-      PropertyValuesHolder pvhY = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y,
-          menu.getSubMenus().get(i).coordY - center.y + menu.getSubMenus().get(i).height / 2);
+      PropertyValuesHolder pvhX =
+          PropertyValuesHolder.ofFloat(View.TRANSLATION_X, m.coordX - center.x + m.width / 2);
+      PropertyValuesHolder pvhY =
+          PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, m.coordY - center.y + m.height / 2);
       PropertyValuesHolder pvhR = PropertyValuesHolder.ofFloat(View.ROTATION, 720);
       PropertyValuesHolder pvhsX = PropertyValuesHolder.ofFloat(View.SCALE_X, 1);
       PropertyValuesHolder pvhsY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1);
       PropertyValuesHolder pvhA = PropertyValuesHolder.ofFloat(View.ALPHA, 1);
 
       final ObjectAnimator animation =
-          ObjectAnimator.ofPropertyValuesHolder(menu.getSubMenus().get(i), pvhX, pvhY, pvhR, pvhsX,
-              pvhsY, pvhA);
+          ObjectAnimator.ofPropertyValuesHolder(m, pvhX, pvhY, pvhR, pvhsX, pvhsY, pvhA);
       animation.setDuration(DURATION);
       animation.setInterpolator(new OvershootInterpolator(0.9f));
-      animation.addListener(
-          new SubMenuItemAnimationListener(menu.getSubMenus().get(i), ActionType.OPENING));
+      animation.addListener(new SubMenuItemAnimationListener(m, ActionType.OPENING));
       // Put a slight lag between each of the menu items to make it asymmetric
-      animation.setStartDelay((menu.getSubMenus().size() - i) * LAG_BETWEEN_ITEMS);
+      animation.setStartDelay(LAG_BETWEEN_ITEMS);
       animators.add(animation);
     }
     if (animators.size() > 0) {
@@ -70,31 +64,59 @@ public class DefaultAnimationHandler extends MenuAnimationHandler {
     }
   }
 
-  @Override public void animateMenuClosing(Point center) {
-    super.animateMenuClosing(center);
+  @Override public void menuClosing(Point center) {
+    super.menuClosing(center);
 
     List<Animator> animators = new ArrayList<>();
-    for (int i = 0; i < menu.getSubMenus().size(); i++) {
-      if (menu.getSubMenus().get(i).active) {
-        continue;
-      }
-      PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat(View.TRANSLATION_X,
-          -(menu.getSubMenus().get(i).coordX - center.x + menu.getSubMenus().get(i).width / 2));
-      PropertyValuesHolder pvhY = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y,
-          -(menu.getSubMenus().get(i).coordY - center.y + menu.getSubMenus().get(i).height / 2));
+    for (PeacockMenu m : menu.getSubMenus()) {
+      PropertyValuesHolder pvhX =
+          PropertyValuesHolder.ofFloat(View.TRANSLATION_X, -(m.coordX - center.x + m.width / 2));
+      PropertyValuesHolder pvhY =
+          PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -(m.coordY - center.y + m.height / 2));
       PropertyValuesHolder pvhR = PropertyValuesHolder.ofFloat(View.ROTATION, -720);
       PropertyValuesHolder pvhsX = PropertyValuesHolder.ofFloat(View.SCALE_X, 0);
       PropertyValuesHolder pvhsY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0);
       PropertyValuesHolder pvhA = PropertyValuesHolder.ofFloat(View.ALPHA, 0);
 
       final ObjectAnimator animation =
-          ObjectAnimator.ofPropertyValuesHolder(menu.getSubMenus().get(i), pvhX, pvhY, pvhR, pvhsX,
-              pvhsY, pvhA);
+          ObjectAnimator.ofPropertyValuesHolder(m, pvhX, pvhY, pvhR, pvhsX, pvhsY, pvhA);
       animation.setDuration(DURATION);
       animation.setInterpolator(new AccelerateDecelerateInterpolator());
-      animation.addListener(
-          new SubMenuItemAnimationListener(menu.getSubMenus().get(i), ActionType.CLOSING));
-      animation.setStartDelay((menu.getSubMenus().size() - i) * LAG_BETWEEN_ITEMS);
+      animation.addListener(new SubMenuItemAnimationListener(m, ActionType.CLOSING));
+      animation.setStartDelay(LAG_BETWEEN_ITEMS);
+      animators.add(animation);
+    }
+    if (animators.size() > 0) {
+      AnimatorSet animatorSet = new AnimatorSet();
+      animatorSet.playTogether(animators);
+      animatorSet.addListener(new AnimationsListener(ActionType.CLOSING));
+      animatorSet.start();
+    }
+  }
+
+  @Override public void otherMenuClosing(Point center, PeacockMenu currentMenu) {
+    super.otherMenuClosing(center, currentMenu);
+
+    List<Animator> animators = new ArrayList<>();
+    for (PeacockMenu m : menu.getSubMenus()) {
+      if (m == currentMenu) {
+        continue;
+      }
+      PropertyValuesHolder pvhX =
+          PropertyValuesHolder.ofFloat(View.TRANSLATION_X, -(m.coordX - center.x + m.width / 2));
+      PropertyValuesHolder pvhY =
+          PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -(m.coordY - center.y + m.height / 2));
+      PropertyValuesHolder pvhR = PropertyValuesHolder.ofFloat(View.ROTATION, -720);
+      PropertyValuesHolder pvhsX = PropertyValuesHolder.ofFloat(View.SCALE_X, 0);
+      PropertyValuesHolder pvhsY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0);
+      PropertyValuesHolder pvhA = PropertyValuesHolder.ofFloat(View.ALPHA, 0);
+
+      final ObjectAnimator animation =
+          ObjectAnimator.ofPropertyValuesHolder(m, pvhX, pvhY, pvhR, pvhsX, pvhsY, pvhA);
+      animation.setDuration(DURATION);
+      animation.setInterpolator(new AccelerateDecelerateInterpolator());
+      animation.addListener(new SubMenuItemAnimationListener(m, ActionType.CLOSING));
+      animation.setStartDelay(LAG_BETWEEN_ITEMS);
       animators.add(animation);
     }
     if (animators.size() > 0) {
