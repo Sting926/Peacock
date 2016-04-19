@@ -388,6 +388,10 @@ public class PeacockMenu extends FrameLayout {
     }
   }
 
+  /**
+   * Closes the other menu.
+   * this action is executed by the current {@link MenuAnimationHandler}
+   */
   public void closeOther(PeacockMenu menu) {
     if (subMenus.size() > 0) {
       // MenuAnimationHandler do the heavy work

@@ -58,99 +58,89 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:src="@drawable/composer_sleep"/>
-
-<!--      <ImageView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:src="@drawable/composer_thought"/>
-
-      <ImageView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:src="@drawable/composer_with"/>-->
     </com.xfdsj.peacock.PeacockLayout>
-  </LinearLayout>
 
-  <RelativeLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:paddingLeft="@dimen/activity_horizontal_margin"
-      android:paddingRight="@dimen/activity_horizontal_margin"
-      android:paddingTop="@dimen/activity_vertical_margin"
-      android:paddingBottom="@dimen/activity_vertical_margin">
-
-    <com.xfdsj.peacock.PeacockMenu
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/floatingBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_action_red_selector"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        app:startAngle="180"
-        app:endAngle="360"
-        app:menuIco="@drawable/ic_action_important"
-        app:radius="@dimen/peacock_menu_radius">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin">
 
       <com.xfdsj.peacock.PeacockMenu
+          xmlns:app="http://schemas.android.com/apk/res-auto"
+          android:id="@+id/floatingBtn"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          app:menuIco="@drawable/peacock"/>
-
-      <com.xfdsj.peacock.PeacockMenu
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          app:menuIco="@drawable/peacock1"/>
-
-      <com.xfdsj.peacock.PeacockMenu
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          app:startAngle="200"
-          app:endAngle="340"
-          app:menuIco="@drawable/peacock1">
-        <com.xfdsj.peacock.PeacockMenu
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:menuIco="@drawable/peacock2"/>
+          android:background="@drawable/button_action_red_selector"
+          android:layout_centerHorizontal="true"
+          android:layout_alignParentBottom="true"
+          app:startAngle="180"
+          app:endAngle="360"
+          app:menuIco="@drawable/ic_action_important"
+          app:radius="@dimen/peacock_menu_radius">
 
         <com.xfdsj.peacock.PeacockMenu
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:startAngle="220"
-            app:endAngle="320"
-            app:menuIco="@drawable/peacock2">
+            app:menuIco="@drawable/peacock"/>
+
+        <com.xfdsj.peacock.PeacockMenu
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:menuIco="@drawable/peacock1"/>
+
+        <com.xfdsj.peacock.PeacockMenu
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:startAngle="200"
+            app:endAngle="340"
+            app:menuIco="@drawable/peacock1">
           <com.xfdsj.peacock.PeacockMenu
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              app:menuIco="@drawable/peacock3"/>
+              app:menuIco="@drawable/peacock2"/>
 
           <com.xfdsj.peacock.PeacockMenu
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              app:menuIco="@drawable/peacock3"/>
+              app:startAngle="220"
+              app:endAngle="320"
+              app:menuIco="@drawable/peacock2">
+            <com.xfdsj.peacock.PeacockMenu
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:menuIco="@drawable/peacock3"/>
+
+            <com.xfdsj.peacock.PeacockMenu
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:menuIco="@drawable/peacock3"/>
+          </com.xfdsj.peacock.PeacockMenu>
+
+          <com.xfdsj.peacock.PeacockMenu
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              app:menuIco="@drawable/peacock2"/>
+
+          <com.xfdsj.peacock.PeacockMenu
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              app:menuIco="@drawable/peacock2"/>
         </com.xfdsj.peacock.PeacockMenu>
 
         <com.xfdsj.peacock.PeacockMenu
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:menuIco="@drawable/peacock2"/>
+            app:menuIco="@drawable/peacock1"/>
 
         <com.xfdsj.peacock.PeacockMenu
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:menuIco="@drawable/peacock2"/>
+            app:menuIco="@drawable/peacock"/>
       </com.xfdsj.peacock.PeacockMenu>
-
-      <com.xfdsj.peacock.PeacockMenu
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          app:menuIco="@drawable/peacock1"/>
-
-      <com.xfdsj.peacock.PeacockMenu
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          app:menuIco="@drawable/peacock"/>
-    </com.xfdsj.peacock.PeacockMenu>
-  </RelativeLayout>
+    </RelativeLayout>
+  </LinearLayout>
 
 </ScrollView>
