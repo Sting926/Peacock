@@ -277,11 +277,11 @@ public class PeacockMenu extends FrameLayout {
     }
   }
 
-  public void openAll(final PeacockMenu menus) {
-    menus.openMenu(true);
-    menus.getAnimationHandler().setAnimationEndListener(new MenuAnimationHandler.AnimationEndListener() {
+  public void openAll(final PeacockMenu menu) {
+    menu.openMenu(true);
+    menu.getAnimationHandler().setAnimationEndListener(new MenuAnimationHandler.AnimationEndListener() {
       @Override public void onAnimationEnd() {
-        for (PeacockMenu subMenu : menus.getSubMenus()) {
+        for (PeacockMenu subMenu : menu.getSubMenus()) {
           if (subMenu.getSubMenus().size() > 0) {
             openAll(subMenu);
           }
@@ -291,14 +291,14 @@ public class PeacockMenu extends FrameLayout {
     });
   }
 
-  public void closeAll(PeacockMenu menus) {
-    for (PeacockMenu subMenu : menus.getSubMenus()) {
+  public void closeAll(PeacockMenu menu) {
+    for (PeacockMenu subMenu : menu.getSubMenus()) {
       if (subMenu.getSubMenus().size() > 0) {
         closeAll(subMenu);
       }
       subMenu.active = false;
     }
-    menus.closeMenu(true);
+    menu.closeMenu(true);
   }
 
   /**
