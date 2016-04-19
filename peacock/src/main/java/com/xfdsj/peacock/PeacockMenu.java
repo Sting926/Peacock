@@ -55,6 +55,15 @@ public class PeacockMenu extends FrameLayout {
   private int radius;
   /** List of menu items */
   private List<PeacockMenu> subMenus;
+
+  public MenuAnimationHandler getAnimationHandler() {
+    return animationHandler;
+  }
+
+  public void setAnimationHandler(MenuAnimationHandler animationHandler) {
+    this.animationHandler = animationHandler;
+  }
+
   /** Reference to the preferred {@link MenuAnimationHandler} object */
   private MenuAnimationHandler animationHandler;
   /** Reference to a listener that listens openMenu/closeMenu actions */
@@ -241,9 +250,6 @@ public class PeacockMenu extends FrameLayout {
 
     @Override public void onClick(View v) {
       active = true;
-      if (status == Status.OPEN) {
-        closeAll(PeacockMenu.this);
-      }
       toggle(true);
     }
   }
@@ -257,10 +263,11 @@ public class PeacockMenu extends FrameLayout {
   public void toggle(boolean animated) {
     switch (status) {
       case OPEN:
-        closeMenu(animated);
+        closeAll(this);
         break;
       case CLOSE:
-        openMenu(animated);
+        openAll(this);
+        //openMenu(animated);
         break;
       case PLAYING:
         return;
@@ -268,6 +275,20 @@ public class PeacockMenu extends FrameLayout {
     if (getPeacockParent() != null) {
       getPeacockParent().closeMenu(true);
     }
+  }
+
+  public void openAll(final PeacockMenu menus) {
+    menus.openMenu(true);
+    menus.getAnimationHandler().setAnimationEndListener(new MenuAnimationHandler.AnimationEndListener() {
+      @Override public void onAnimationEnd() {
+        for (PeacockMenu subMenu : menus.getSubMenus()) {
+          if (subMenu.getSubMenus().size() > 0) {
+            openAll(subMenu);
+          }
+          subMenu.active = false;
+        }
+      }
+    });
   }
 
   public void closeAll(PeacockMenu menus) {
@@ -287,16 +308,15 @@ public class PeacockMenu extends FrameLayout {
    */
   public void openMenu(boolean animated) {
     if (subMenus.size() > 0) {
-      // Get the center of the action view from the following function for efficiency
-      // populate destination coordX,coordY coordinates of Items
-      Point center = calculateItemPositions();
-
       if (animated && animationHandler != null) {
         // If animations are enabled and we have a MenuAnimationHandler, let it do the heavy work
         if (status == Status.PLAYING) {
           // Do not proceed if there is an animation currently going on.
           return;
         }
+        // Get the center of the action view from the following function for efficiency
+        // populate destination coordX,coordY coordinates of Items
+        Point center = calculateItemPositions();
 
         for (int i = 0; i < subMenus.size(); i++) {
           // It is required that these Item views are not currently added to any parent
