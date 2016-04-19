@@ -266,8 +266,7 @@ public class PeacockMenu extends FrameLayout {
         closeAll(this);
         break;
       case CLOSE:
-        openAll(this);
-        //openMenu(animated);
+        openMenu(animated);
         break;
       case PLAYING:
         return;
@@ -279,20 +278,21 @@ public class PeacockMenu extends FrameLayout {
 
   public void openAll(final PeacockMenu menu) {
     menu.openMenu(true);
-    menu.getAnimationHandler().setAnimationEndListener(new MenuAnimationHandler.AnimationEndListener() {
-      @Override public void onAnimationEnd() {
-        for (final PeacockMenu subMenu : menu.getSubMenus()) {
-          if (subMenu.getSubMenus().size() > 0) {
-            post(new Runnable() {
-              @Override public void run() {
-                openAll(subMenu);
+    menu.getAnimationHandler()
+        .setAnimationEndListener(new MenuAnimationHandler.AnimationEndListener() {
+          @Override public void onAnimationEnd() {
+            for (final PeacockMenu subMenu : menu.getSubMenus()) {
+              if (subMenu.getSubMenus().size() > 0) {
+                post(new Runnable() {
+                  @Override public void run() {
+                    openAll(subMenu);
+                  }
+                });
               }
-            });
+              subMenu.active = false;
+            }
           }
-          subMenu.active = false;
-        }
-      }
-    });
+        });
   }
 
   public void closeAll(PeacockMenu menu) {
@@ -303,6 +303,25 @@ public class PeacockMenu extends FrameLayout {
       subMenu.active = false;
     }
     menu.closeMenu(true);
+  }
+
+  @Deprecated public void closeAllWithAnimate(final PeacockMenu menu) {
+    menu.closeMenu(true);
+    menu.getAnimationHandler()
+        .setAnimationEndListener(new MenuAnimationHandler.AnimationEndListener() {
+          @Override public void onAnimationEnd() {
+            for (final PeacockMenu subMenu : menu.getSubMenus()) {
+              if (subMenu.getSubMenus().size() > 0) {
+                post(new Runnable() {
+                  @Override public void run() {
+                    closeAllWithAnimate(subMenu);
+                  }
+                });
+              }
+              subMenu.active = false;
+            }
+          }
+        });
   }
 
   /**

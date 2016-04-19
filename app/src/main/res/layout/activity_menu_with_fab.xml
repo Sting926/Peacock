@@ -53,13 +53,13 @@
       <com.xfdsj.peacock.PeacockMenu
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          app:startAngle="270"
-          app:endAngle="360"
+          app:startAngle="220"
+          app:endAngle="320"
           app:menuIco="@drawable/peacock2">
         <com.xfdsj.peacock.PeacockMenu
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:menuIco="@drawable/ic_action_important"/>
+            app:menuIco="@drawable/peacock3"/>
 
         <com.xfdsj.peacock.PeacockMenu
             android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
       <com.xfdsj.peacock.PeacockMenu
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          app:menuIco="@drawable/ic_action_important"/>
+          app:menuIco="@drawable/peacock2"/>
     </com.xfdsj.peacock.PeacockMenu>
 
     <com.xfdsj.peacock.PeacockMenu
@@ -86,6 +86,6 @@
     <com.xfdsj.peacock.PeacockMenu
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:menuIco="@drawable/ic_action_important"/>
+        app:menuIco="@drawable/peacock"/>
   </com.xfdsj.peacock.PeacockMenu>
 </RelativeLayout>
