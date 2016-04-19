@@ -248,6 +248,9 @@ public class PeacockMenu extends FrameLayout {
   public class ActionViewClickListener implements OnClickListener {
 
     @Override public void onClick(View v) {
+      if (status == Status.PLAYING){
+        return;
+      }
       active = true;
       toggle();
     }
@@ -298,6 +301,7 @@ public class PeacockMenu extends FrameLayout {
         closeAll(subMenu);
       }
       subMenu.active = false;
+      subMenu.setStatus(Status.PLAYING);
     }
     menu.closeMenu();
   }
@@ -372,11 +376,11 @@ public class PeacockMenu extends FrameLayout {
       // MenuAnimationHandler do the heavy work
       if (animationHandler != null) {
         if (status == Status.PLAYING) {
-          animationHandler.setAnimationEndListener(new MenuAnimationHandler.AnimationEndListener() {
+/*          animationHandler.setAnimationEndListener(new MenuAnimationHandler.AnimationEndListener() {
             @Override public void onAnimationEnd() {
               closeAll(PeacockMenu.this);
             }
-          });
+          });*/
           return;
         }
         animationHandler.animateMenuClosing(getActionViewCenter());
