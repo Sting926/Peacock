@@ -281,9 +281,13 @@ public class PeacockMenu extends FrameLayout {
     menu.openMenu(true);
     menu.getAnimationHandler().setAnimationEndListener(new MenuAnimationHandler.AnimationEndListener() {
       @Override public void onAnimationEnd() {
-        for (PeacockMenu subMenu : menu.getSubMenus()) {
+        for (final PeacockMenu subMenu : menu.getSubMenus()) {
           if (subMenu.getSubMenus().size() > 0) {
-            openAll(subMenu);
+            post(new Runnable() {
+              @Override public void run() {
+                openAll(subMenu);
+              }
+            });
           }
           subMenu.active = false;
         }
