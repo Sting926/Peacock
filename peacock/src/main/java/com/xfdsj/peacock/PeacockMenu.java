@@ -370,11 +370,11 @@ public class PeacockMenu extends FrameLayout {
       // MenuAnimationHandler do the heavy work
       if (animationHandler != null) {
         if (status == Status.PLAYING) {
-/*          animationHandler.setAnimationEndListener(new MenuAnimationHandler.AnimationEndListener() {
+          animationHandler.setAnimationEndListener(new MenuAnimationHandler.AnimationEndListener() {
             @Override public void onAnimationEnd() {
               closeAll(PeacockMenu.this);
             }
-          });*/
+          });
           return;
         }
         animationHandler.menuClosing(getActionViewCenter());
