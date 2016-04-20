@@ -122,7 +122,6 @@ public class DefaultAnimationHandler extends MenuAnimationHandler {
     if (animators.size() > 0) {
       AnimatorSet animatorSet = new AnimatorSet();
       animatorSet.playTogether(animators);
-      animatorSet.addListener(new AnimationsListener(ActionType.CLOSING));
       animatorSet.start();
     }
   }
