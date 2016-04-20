@@ -20,8 +20,6 @@ public class DefaultAnimationHandler extends MenuAnimationHandler {
 
   /** duration of animations, in milliseconds */
   protected static final int DURATION = 300;
-  /** duration to wait between each of */
-  protected static final int LAG_BETWEEN_ITEMS = 20;
 
   /** holds the current state of animation */
   //private boolean animating;
@@ -52,8 +50,6 @@ public class DefaultAnimationHandler extends MenuAnimationHandler {
       animation.setDuration(DURATION);
       animation.setInterpolator(new OvershootInterpolator(0.9f));
       animation.addListener(new SubMenuItemAnimationListener(m, ActionType.OPENING));
-      // Put a slight lag between each of the menu items to make it asymmetric
-      animation.setStartDelay(LAG_BETWEEN_ITEMS);
       animators.add(animation);
     }
     if (animators.size() > 0) {
@@ -83,7 +79,6 @@ public class DefaultAnimationHandler extends MenuAnimationHandler {
       animation.setDuration(DURATION);
       animation.setInterpolator(new AccelerateDecelerateInterpolator());
       animation.addListener(new SubMenuItemAnimationListener(m, ActionType.CLOSING));
-      animation.setStartDelay(LAG_BETWEEN_ITEMS);
       animators.add(animation);
     }
     if (animators.size() > 0) {
@@ -116,7 +111,6 @@ public class DefaultAnimationHandler extends MenuAnimationHandler {
       animation.setDuration(DURATION);
       animation.setInterpolator(new AccelerateDecelerateInterpolator());
       animation.addListener(new SubMenuItemAnimationListener(m, ActionType.CLOSING));
-      animation.setStartDelay(LAG_BETWEEN_ITEMS);
       animators.add(animation);
     }
     if (animators.size() > 0) {
